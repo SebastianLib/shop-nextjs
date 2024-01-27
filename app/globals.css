@@ -3,6 +3,7 @@
 @tailwind utilities;
  
 @layer base {
+  
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -33,6 +34,41 @@
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
+
+.swiper-button-next, 
+.swiper-button-prev {
+  color: white;
+  background-color: rgb(139 92 246);
+  padding: 30px;
+  border-radius: 100%;
+}
+
+.swiper-button-next:hover, 
+.swiper-button-prev:hover {
+  color: white;
+  background-color:rgb(124 58 237);
+  padding: 30px;
+  border-radius: 100%;
+  transition: background 0.5s;
+}
+
+.swiper-button-next:after, 
+.swiper-button-prev:after {
+  font-size: 30px;
+}
+
+.swiper-button-next.swiper-button-disabled, 
+.swiper-button-prev.swiper-button-disabled {
+    opacity: 0;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: rgb(124 58 237) !important;
+}
+
+.swiper-pagination-bullet {
+  background-color: rgb(196 181 253);
+}
   }
  
   .dark {

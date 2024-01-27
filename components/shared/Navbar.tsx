@@ -38,15 +38,6 @@ const Navbar = () => {
               </li>
             );
           })}
-          {userId && (
-            <li
-              className={`sm:text-md md:text-xl ${
-                pathname == "/create" && "text-violet-600"
-              }`}
-            >
-              <Link href="/create">Add Product</Link>
-            </li>
-          )}
         </ul>
         <SignedIn>
           <UserButton />

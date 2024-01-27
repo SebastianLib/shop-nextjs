@@ -11,7 +11,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 
 const MobileNavbar = () => {
-  const {userId} = useAuth()
   
   return (
     <Sheet>
@@ -29,13 +28,6 @@ const MobileNavbar = () => {
               </li>
             </SheetClose>
           ))}
-          {userId && (
-            <SheetClose asChild>
-              <li className="text-3xl">
-                <Link href="create">Add Product</Link>
-              </li>
-            </SheetClose>
-          )}
         </ul>
         <div className="flex mx-4 my-8 gap-4">
           <SignedIn>

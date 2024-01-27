@@ -12,6 +12,7 @@ export async function createCategory({ newCategory, path }: CreateCategoryParams
     const newUser = await prisma.category.create({
       data: {
         name: newCategory,
+        createdAt: new Date(),
       },
     });
     revalidatePath(path)
