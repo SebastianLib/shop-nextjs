@@ -25,8 +25,9 @@ const Navbar = () => {
             return (
               <li
                 key={link.label}
-                className={`sm:text-md md:text-xl ${
-                  pathname == link.href && "text-violet-600"
+                className={`sm:text-md md:text-xl relative before:content-[''] before:w-0 before:h-[2px] before:bg-violet-500 before:absolute 
+                before:-bottom-2 hover:before:w-full before:left-[50%] hover:before:left-0 before:transition-all ${
+                  pathname == link.href && "text-violet-600 "
                 }`}
               >
                 <Link
