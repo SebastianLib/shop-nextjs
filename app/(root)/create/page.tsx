@@ -286,6 +286,7 @@ const CreatePage = () => {
           <Button
             className="px-4 py-7 rounded-full text-xl md:col-span-2"
             type="submit"
+            variant="main"
             disabled={statusNewProduct}
           >
             Submit

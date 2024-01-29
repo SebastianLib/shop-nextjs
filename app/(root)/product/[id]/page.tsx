@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
+import { handleCart } from "@/lib/db/cart";
 import { ProductParams, getProductById } from "@/lib/db/product";
+import { currentUser, useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
   const [product, setProduct] = useState<ProductParams | null>();
   const [loading, setLoading] = useState<boolean>(true);
-
+  const {userId} = useAuth();
   useEffect(() => {
     const fetchWomenProducts = async () => {
       try {
@@ -50,7 +52,11 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
               currency: "USD",
             })}
           </p>
-          <Button className="text-2xl max-w-fit p-8">Add to cart</Button>
+            <Button onClick={()=>{
+              const productId = product.id
+              if(!userId || !productId) return null;        
+              return handleCart(userId, productId)
+            }} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
         </div>
       </div>
     </section>
