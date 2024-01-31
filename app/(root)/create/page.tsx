@@ -35,7 +35,7 @@ import { Bounce, toast } from "react-toastify";
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   categoryName: z.string().min(2).max(50),
-  description: z.string().min(2).max(50),
+  description: z.string().min(2).max(500),
   price: z.number(),
   gender: z.string(),
 });

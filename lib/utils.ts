@@ -17,3 +17,36 @@ export const gender = [
   { name: "Women",},
   { name: "Both",},
 ];
+
+
+export interface CartParams{
+  id:String
+  userId:String
+  createdAt:Date | null
+  updatedAt:Date | null
+  items:Array<CartItem>
+  quantity:number
+  totalPrice:number
+}
+
+export interface CartItem{
+  id:string
+  productId:string
+  product: Product
+  quantity:number
+  createdAt:Date | null
+  updatedAt:Date | null,
+}
+
+export interface Product{
+  id: string,
+  userId: string,
+  name: string,
+  categoryName: string,
+  image: string,
+  description: string,
+  price: number,
+  gender: string,
+  createdAt:Date | null
+  updatedAt:Date | null,
+}

@@ -36,7 +36,7 @@ const AllProducts = () => {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      className="w-full flex items-center justify-center"
+      className="w-full flex items-center justify-center mb-4"
       breakpoints={{
         420: {
           slidesPerView: 1,
@@ -59,17 +59,17 @@ const AllProducts = () => {
       {products?.map((product) => (
         <SwiperSlide key={product.id}>
           <Link href={`/product/${product?.id}`} key={product?.id}>
-            <div className="flex flex-col p-4 rounded-xl border gap-4 transition hover:bg-slate-50">
+            <div className="flex flex-col p-4 rounded-xl h-[480px] border gap-4 transition hover:bg-slate-50">
               <Image
                 src={product.image}
                 width={300}
                 height={450}
                 alt={product.name}
-                className="w-full h-80 object-contain"
+                className="w-full h-80 max-h-80 object-contain"
               />
               <div>
                 <h2 className="text-2xl">{product.name}</h2>
-                <p className="text-gray-600">{product.description}</p>
+                <p className="text-gray-600">{product.description.substring(0, 60)}...</p>
                 <p className="mt-2 text-lg">
                   {product.price.toLocaleString("en-US", {
                     style: "currency",
