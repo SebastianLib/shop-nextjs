@@ -9,29 +9,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useEffect, useState } from "react";
-import { useAuth } from "@clerk/nextjs";
-import { getCart } from "@/lib/db/cart";
 import { CartParams } from "@/lib/utils";
 
-const Basket = () => {
-  const [cart, setCart] = useState<CartParams | null>();
-  const { userId } = useAuth();
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        if (!userId) throw new Error("missing user Id");
-        const productsData = await getCart(userId);
-        setCart(productsData);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-
-    fetchCart();
-  }, [userId]);
-
+const Basket = (cart:CartParams) => {
+  
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="relative">

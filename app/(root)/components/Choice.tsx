@@ -13,6 +13,7 @@ const Choice = () => {
             width={500}
             height={600}
             alt="woman"
+            priority={true}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500 flex justify-center items-center">
@@ -21,17 +22,18 @@ const Choice = () => {
         </div>
       </Link>
 
-      <Link href="/man">
+      <Link href="/men">
         <div className="group relative border cursor-pointer hover:scale-105 transition duration-500 max-w-[500px] h-[400px] md:h-[600px]">
           <Image
             src={man}
             width={500}
             height={600}
-            alt="man"
+            alt="men"
+            priority={true}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500 flex justify-center items-center">
-            <h1 className="text-white text-3xl">Man</h1>
+            <h1 className="text-white text-3xl">Men</h1>
           </div>
         </div>
       </Link>

@@ -1,15 +1,36 @@
 "use client";
-import { links } from "@/lib/utils";
+import { CartParams, links } from "@/lib/utils";
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import Basket from "./Basket";
+import { useEffect, useState } from "react";
+import { getCart } from "@/lib/db/cart";
 
 const Navbar = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
+  const [cart, setCart] = useState<CartParams>();
+  const [loading, setLoading] = useState<boolean>(true);
+  
+  useEffect(() => {
+    
+    const fetchCart = async () => {
+      try {
+        if(!userId) return setLoading(false);
+        const productsData = await getCart(userId);
+        setCart(productsData);
+        setLoading(false)
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    };
+
+    fetchCart();
+  }, []);
+  
 
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
@@ -43,7 +64,7 @@ const Navbar = () => {
         </ul>
         <SignedIn>
           <div className="flex items-center gap-4">
-            <Basket/>
+            {cart && <Basket {...cart}/>}
             <div className="hidden sm:flex">
             <UserButton/>
             </div>

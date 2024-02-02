@@ -28,7 +28,7 @@ import { UploadButton } from "@/utils/uploadthing";
 import Image from "next/image";
 import { createProduct } from "@/lib/db/product";
 import { useUser } from "@clerk/nextjs";
-import { gender } from "@/lib/utils";
+import { CategoryProps, gender } from "@/lib/utils";
 import { useRouter } from 'next/navigation'
 import { Bounce, toast } from "react-toastify";
 
@@ -40,10 +40,6 @@ const formSchema = z.object({
   gender: z.string(),
 });
 
-interface CategoryProps {
-  id: string;
-  name: string;
-}
 
 const CreatePage = () => {
   const [categories, setCategories] = useState<CategoryProps[]>();

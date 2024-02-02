@@ -18,10 +18,14 @@ export const gender = [
   { name: "Both",},
 ];
 
+export interface CategoryProps {
+  id: string;
+  name: string;
+}
 
 export interface CartParams{
-  id:String
-  userId:String
+  id:string
+  userId:string
   createdAt:Date | null
   updatedAt:Date | null
   items:Array<CartItem>

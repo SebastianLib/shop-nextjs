@@ -1,58 +1,94 @@
-"use client"
-import { ProductParams, getWomenProducts } from "@/lib/db/product";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react"
+"use client";
+import SingleItem from "@/components/shared/SingleItem";
+import { Input } from "@/components/ui/input";
+import { ProductParams, getProducts } from "@/lib/db/product";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CategoryProps } from "@/lib/utils";
+import { getCategories } from "@/lib/db/category";
 
 const WomenPage = () => {
   const [products, setProducts] = useState<ProductParams[]>();
+  const [categories, setCategories] = useState<CategoryProps[]>();
   const [loading, setLoading] = useState<boolean>(true);
+  
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
 
-  useEffect(()=>{
+  function handleSerachParams(name:string,term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set(name, term);
+    } else {
+      params.delete(name);
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  useEffect(() => {
     const fetchWomenProducts = async () => {
       try {
-        const productsData = await getWomenProducts();
+        const search = (searchParams.get("search"))
+        const category = (searchParams.get("category"))
+        const params = {search, category}
+        
+        const productsData = await getProducts("Women", params);
         setProducts(productsData?.products);
-        setLoading(false);
-
-      } catch (error:any) {
-        throw new Error(error)
+      } catch (error: any) {
+        throw new Error(error);
       }
     };
-
+    const fetchCategories = async () => {
+      try {
+        const categoriesData = await getCategories();
+        setCategories(categoriesData?.categories);
+        setLoading(false);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    };
+    
     fetchWomenProducts();
-  }, []);
+    fetchCategories();
+  }, [searchParams]);
 
   return (
     <section className="mt-40 container">
-        <h1 className="text-5xl font-semibold text-center">All Products</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
-          {products?.map(product => (
-              <Link href={`/product/${product?.id}`} key={product?.id}>
-            <div className="flex flex-col p-4 rounded-xl border gap-4 transition hover:bg-slate-50">
-              <Image
-                src={product.image}
-                width={300}
-                height={450}
-                alt={product.name}
-                className="w-full h-80 object-contain"
-              />
-              <div>
-                <h2 className="text-2xl">{product.name}</h2>
-                <p className="text-gray-600">{product.description}</p>
-                <p className="mt-2 text-lg">
-                  {product.price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-            </div>
-          </Link>
-          ))}
-        </div>
-    </section>
-  )
-}
+      <h1 className="text-5xl font-semibold text-center">All Products</h1>
+      <div className="grid grid-cols-2 border border-gray-100 px-4 py-8 rounded-xl shadow-xl gap-4">
+        <Input
+          onChange={(e) => handleSerachParams("search",e.target.value)}
+          type="text"
+          placeholder="Search"
+        />
 
-export default WomenPage
+        <Select onValueChange={(value)=>handleSerachParams("category",value)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories?.map(item =>(
+              <SelectItem key={item.id} value={item.name}>{item.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+        {products?.map((product) => (
+          <SingleItem key={product.id} {...product} />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default WomenPage;

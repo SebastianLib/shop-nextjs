@@ -1,5 +1,5 @@
 "use client";
-import { ProductParams, getAllProducts } from "@/lib/db/product";
+import { ProductParams, getAllProducts, getLatestProducts } from "@/lib/db/product";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,13 +10,13 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-const AllProducts = () => {
+const LatestProducts = () => {
   const [products, setProducts] = useState<ProductParams[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const productsData = await getAllProducts();
+        const productsData = await getLatestProducts();
 
         setProducts(productsData?.products);
       } catch (error: any) {
@@ -29,7 +29,7 @@ const AllProducts = () => {
 
   return (
     <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
-      <h1 className="text-2xl">All Products</h1>
+      <h1 className="text-2xl">Latest Products</h1>
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}
@@ -65,6 +65,7 @@ const AllProducts = () => {
                 width={300}
                 height={450}
                 alt={product.name}
+                priority={true}
                 className="w-full h-80 max-h-80 object-contain"
               />
               <div>
@@ -86,4 +87,4 @@ const AllProducts = () => {
   );
 };
 
-export default AllProducts;
+export default LatestProducts;

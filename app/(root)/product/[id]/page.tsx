@@ -37,6 +37,7 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
             width={500}
             height={500}
             alt={product.name}
+            priority={true}
             className="object-cover"
           />
         </div>

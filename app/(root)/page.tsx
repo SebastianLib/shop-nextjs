@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import AllProducts from "./components/AllProducts";
 import Choice from "./components/Choice";
+import LatestProducts from "./components/LatestProducts";
 
 const Home = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +34,7 @@ const Home = () => {
     <section className="flex flex-col items-center mt-40 container">
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-center">What are you looking for?</h1>
       <Choice/>
-      <AllProducts />
+      <LatestProducts />
     </section>
   );
 };
