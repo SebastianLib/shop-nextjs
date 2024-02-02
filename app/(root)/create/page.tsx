@@ -31,6 +31,7 @@ import { useUser } from "@clerk/nextjs";
 import { CategoryProps, gender } from "@/lib/utils";
 import { useRouter } from 'next/navigation'
 import { Bounce, toast } from "react-toastify";
+import Loading from "@/components/shared/Loading";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -79,35 +80,18 @@ const CreatePage = () => {
       try {
         const categoriesData = await getCategories();
         setCategories(categoriesData?.categories);
-        setLoading(false);
 
       } catch (error:any) {
         throw new Error(error)
       }
+      setLoading(false);
     };
 
     fetchCategories();
   }, []);
   
   if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-      <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="48"
-      height="48"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="animate-spin"
-    >
-      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-    </svg>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (

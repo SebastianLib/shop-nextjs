@@ -13,6 +13,7 @@ const SingleItem = (product:ProductParams) => {
           width={300}
           height={450}
           alt={product?.name}
+          priority={true}
           className="w-full h-80 max-h-80 object-cover object-center"
         />
         <div>

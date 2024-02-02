@@ -7,12 +7,13 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input"
-import { useRouter } from "next/navigation";
+import Loading from "@/components/shared/Loading";
 
 const CartPage = () => {
   const [cart, setCart] = useState<CartParams | null>();
+  const [loading, setLoading] = useState<boolean>(true);
+
   const { userId } = useAuth();
-  const router = useRouter();
 
   const handleRemove = async (itemId:string) => {
     try {
@@ -31,6 +32,7 @@ const CartPage = () => {
     } catch (error: any) {
       throw new Error(error);
     }
+    setLoading(false)
   };
 
   const handleQuantity = async(quantity:number, id:string) => {
@@ -43,18 +45,21 @@ const CartPage = () => {
   }
 
   useEffect(() => {
-
     fetchCart();
   }, []);
 
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
-    <section className="mt-40 container overflow-x-hidden">
+    <section className="md:mt-40 mt-28 container overflow-x-hidden">
       <h1 className="text-center text-5xl font-semibold">Shopping Cart</h1>
       <div className="flex flex-col gap-4 border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {cart?.items.map((item) => {
           const total = item.product.price * item.quantity;
           return (
-            <div className="flex items-center justify-between" key={item.product.id}>
+            <div className="flex flex-col md:flex-row" key={item.product.id}>
               <div className="flex items-center gap-4">
               <Image
                 src={item.product.image}
@@ -84,13 +89,14 @@ const CartPage = () => {
                 </p>
               </div>
               </div>
-              <div>
-                <Button variant="destructive" className="h-12" onClick={()=>handleRemove(item.id)}>Remove</Button>
-              </div>
+
+                  <div className="w-full flex justify-end">
+                  <Button variant="destructive" className="h-12 w-full md:w-24" onClick={()=>handleRemove(item.id)}>Remove</Button>
+                  </div>
             </div>
           );
         })}
-        <h2 className="text-center text-2xl font-semibold">
+        <h2 className="text-center text-2xl font-semibold mt-4">
           Total:{" "}
           {cart?.totalPrice.toLocaleString("en-US", {
             style: "currency",

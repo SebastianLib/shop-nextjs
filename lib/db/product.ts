@@ -66,8 +66,24 @@ export async function getLatestProducts() {
   }
 }
 
-export async function getProducts(gender: string, params: { search: string | null; category: string | null }) {
-  const {search, category} = params
+export async function getProducts(gender: string, params: { search: string | null, category: string | null, sort: string | null }) {
+  const {search, category, sort} = params
+  
+  interface OrderBy {
+    [key: string]: string;
+  }
+
+  const orderBy: OrderBy = {};
+
+
+  if(sort === "asc" || sort === "desc"){
+    orderBy["price"] = sort 
+  }
+  if(sort === "latest" || sort === "oldest"){
+    const value = sort === "latest" ? "asc" : "desc";
+    orderBy["id"] = value 
+  }
+  
   const whereCondition:{
     gender: string;
     categoryName?: string;
@@ -81,13 +97,13 @@ export async function getProducts(gender: string, params: { search: string | nul
   if (search) {
     whereCondition.name = { contains: search, mode: "insensitive" };
   }
-
   console.log(whereCondition);
   
   try {
     const products = await prisma.product.findMany(
       {
-        where: whereCondition
+        where: whereCondition,
+        orderBy: orderBy
       }
     );
     return {
