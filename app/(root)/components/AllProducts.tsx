@@ -1,20 +1,11 @@
-"use client";
-import SingleItem from "@/components/shared/SingleItem";
-import { ProductParams, getProducts } from "@/lib/db/product";
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
-import { useEffect, useState } from "react";
-import ProductsFilters from "@/components/shared/ProductsFilters";
-import Loading from "@/components/shared/Loading";
 import Pagination from "@/components/shared/Pagination";
+import SingleItem from "@/components/shared/SingleItem";
+import { ProductParams, getAllProducts } from "@/lib/db/product";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const WomenPage = () => {
-  const [products, setProducts] = useState<ProductParams[]>();
-  const [loading, setLoading] = useState<boolean>(true);
-
+const AllProducts = () => {
+  const [products, setProducts] = useState<ProductParams[]>([]);
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
   const [actualPage, setActualPage] = useState<number>(1);
   const [skip, setSkip] = useState<number>(4);
@@ -22,19 +13,6 @@ const WomenPage = () => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-
-  function handleSearchParams(name: string, term: string) {
-    const params = new URLSearchParams(searchParams);
-    if (term) {
-      params.set(name, term);
-    } else {
-      params.delete(name);
-    }
-    if(term === "all"){
-      params.delete(name)
-    }
-    replace(`${pathname}?${params.toString()}`);
-  }
 
   function handleNextPage() {
     const params = new URLSearchParams(searchParams);
@@ -56,54 +34,39 @@ const WomenPage = () => {
   }
 
   useEffect(() => {
-    const fetchWomenProducts = async () => {
+    const fetchProducts = async () => {
       try {
-        const search = searchParams.get("search");
-        const category = searchParams.get("category");
-        const sort = searchParams.get("sort");
-        const params = { search, category, sort };
-
-
         const page = searchParams.get("page");
         page ? setActualPage(parseInt(page)) : setActualPage(1)
         const actualPage = page ? parseInt(page) - 1 : 0;
-
-
-        const productsData = await getProducts("Women", params, actualPage, skip);
-
+        const productsData = await getAllProducts(actualPage, skip);
         setTotalProductsPages(Math.ceil(productsData?.totalProducts / skip));
         setProducts(productsData?.products);
       } catch (error: any) {
         throw new Error(error);
       }
-      setLoading(false)
     };
 
-    fetchWomenProducts();
+    fetchProducts();
   }, [searchParams]);
-
-  if (loading) {
-    return <Loading />;
-  }
-
   return (
-    <section className="md:mt-40 mt-28 container">
-      {/* <h1 className="text-5xl font-semibold text-center">All Products</h1> */}
-      <ProductsFilters handleSearchParams={handleSearchParams}/>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-10">
+    <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
+      <h2 className="text-2xl">All Products</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {products?.map((product) => (
           <SingleItem key={product.id} {...product} />
         ))}
       </div>
-      <Pagination 
+
+          <Pagination 
           actualPage={actualPage} 
           handlePrevPage={handlePrevPage} 
           handleNextPage={handleNextPage}
           handlePage={handlePage}
           totalProductsPages={totalProductsPages} 
           />
-    </section>
+    </div>
   );
 };
 
-export default WomenPage;
+export default AllProducts;

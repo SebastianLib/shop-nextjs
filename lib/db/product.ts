@@ -35,12 +35,18 @@ export async function createProduct({ ...newProduct }: ProductParams) {
   }
 }
 
-export async function getAllProducts() {
+export async function getAllProducts(actualPage: number, skip: number) {
 
   try {
-    const products = await prisma.product.findMany();
+    const totalProducts = await prisma.product.count()
+
+    const products = await prisma.product.findMany({
+      skip: actualPage * skip,
+      take: skip
+    });
     return {
-      products
+      products,
+      totalProducts
     };
   } catch (error) {
     console.error("error loading products:", error);
@@ -51,6 +57,7 @@ export async function getAllProducts() {
 export async function getLatestProducts() {
 
   try {
+
     const products = await prisma.product.findMany({
       take: 10,
       orderBy: {
@@ -66,9 +73,9 @@ export async function getLatestProducts() {
   }
 }
 
-export async function getProducts(gender: string, params: { search: string | null, category: string | null, sort: string | null }) {
-  const {search, category, sort} = params
-  
+export async function getProducts(gender: string, params: { search: string | null, category: string | null, sort: string | null }, actualPage: number, skip: number) {
+  const { search, category, sort } = params
+
   interface OrderBy {
     [key: string]: string;
   }
@@ -76,18 +83,18 @@ export async function getProducts(gender: string, params: { search: string | nul
   const orderBy: OrderBy = {};
 
 
-  if(sort === "asc" || sort === "desc"){
-    orderBy["price"] = sort 
+  if (sort === "asc" || sort === "desc") {
+    orderBy["price"] = sort
   }
-  if(sort === "latest" || sort === "oldest"){
+  if (sort === "latest" || sort === "oldest") {
     const value = sort === "latest" ? "asc" : "desc";
-    orderBy["id"] = value 
+    orderBy["id"] = value
   }
-  
-  const whereCondition:{
+
+  const whereCondition: {
     gender: string;
     categoryName?: string;
-    name?: { contains: string; mode:any}
+    name?: { contains: string; mode: any }
   } = {
     gender: gender,
   };
@@ -97,17 +104,22 @@ export async function getProducts(gender: string, params: { search: string | nul
   if (search) {
     whereCondition.name = { contains: search, mode: "insensitive" };
   }
-  console.log(whereCondition);
-  
+
   try {
+    const totalProducts = await prisma.product.count(
+      {where: whereCondition}
+    )
     const products = await prisma.product.findMany(
       {
         where: whereCondition,
-        orderBy: orderBy
+        orderBy: orderBy,
+        skip: actualPage * skip,
+        take: skip
       }
     );
     return {
-      products
+      products,
+      totalProducts
     };
   } catch (error) {
     console.error("error loading products:", error);

@@ -29,7 +29,7 @@ const LatestProducts = () => {
 
   return (
     <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
-      <h1 className="text-2xl">Latest Products</h1>
+      <h2 className="text-2xl">Latest Products</h2>
     <Swiper
       modules={[Navigation, Pagination, Scrollbar, A11y]}
       spaceBetween={50}

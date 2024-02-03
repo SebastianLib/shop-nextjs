@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Choice from "./components/Choice";
 import LatestProducts from "./components/LatestProducts";
+import AllProducts from "./components/AllProducts";
 import Loading from "@/components/shared/Loading";
 
 const Home = () => {
@@ -21,6 +22,7 @@ const Home = () => {
       </h1>
       <Choice />
       <LatestProducts />
+      <AllProducts/>
     </section>
   );
 };
