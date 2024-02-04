@@ -53,7 +53,7 @@ export const handleCart = async (userId: string, productId: string) => {
 
 export const getCart = async (userId: string) => {
     try {
-        let cart = await prisma.shoppingCart.findUnique({
+        const cart = await prisma.shoppingCart.findUnique({
             where: {
                 userId,
             },
@@ -65,28 +65,59 @@ export const getCart = async (userId: string) => {
                 },
             },
         });
-        if (!cart) {
-            cart = await prisma.shoppingCart.create({
+        if(cart){
+            const quantity = cart?.items.reduce(
+                (accumulator, currentValue) => accumulator + currentValue.quantity, 0
+            );
+    
+            const totalPrice = cart?.items.reduce(
+                (accumulator, currentValue) =>
+                    accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
+                0
+            );
+    
+            const cartWithQuantity = cart
+                ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
+                : undefined;
+    
+            return cartWithQuantity;
+        }
+        else{
+            await prisma.shoppingCart.create({
                 data: {
                     userId: userId,
                 }
             })
+            const cart = await prisma.shoppingCart.findUnique({
+                where: {
+                    userId,
+                },
+                include: {
+                    items: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+            });
+
+            const quantity = cart?.items.reduce(
+                (accumulator, currentValue) => accumulator + currentValue.quantity, 0
+            );
+    
+            const totalPrice = cart?.items.reduce(
+                (accumulator, currentValue) =>
+                    accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
+                0
+            );
+    
+            const cartWithQuantity = cart
+                ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
+                : undefined;
+    
+            return cartWithQuantity;
         }
-        const quantity = cart?.items.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.quantity, 0
-        );
-
-        const totalPrice = cart?.items.reduce(
-            (accumulator, currentValue) =>
-                accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
-            0
-        );
-
-        const cartWithQuantity = cart
-            ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
-            : undefined;
-
-        return cartWithQuantity;
+        
     } catch (error) {
         console.error("error loading products:", error);
     }
