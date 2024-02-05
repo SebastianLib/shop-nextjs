@@ -2,7 +2,6 @@
 import { prisma } from "./prisma";
 
 export interface ProductParams {
-  id: string;
   userId: string;
   name: string;
   categoryName: string;

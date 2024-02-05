@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CartContext } from "@/context/CartContext";
 import { handleCart } from "@/lib/db/cart";
 import { ProductParams, getProductById } from "@/lib/db/product";
+import { Product } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect} from "next/navigation";
@@ -12,7 +13,7 @@ import { toast } from "react-toastify";
 
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
-  const [product, setProduct] = useState<ProductParams>();
+  const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState<boolean>(true);
   const {userId} = useAuth();
 
