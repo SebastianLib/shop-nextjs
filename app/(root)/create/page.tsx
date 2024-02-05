@@ -55,7 +55,6 @@ const CreatePage = () => {
       name: "",
       categoryName: "",
       description: "",
-      price: 0,
     },
   });
 
@@ -225,7 +224,7 @@ const CreatePage = () => {
           />
           <div className="flex gap-4 flex-col">
           
-          <div className="h-48 mx-auto w-40 bg-gray-100 border border-gray-400 rounded-xl flex items-center justify-center cursor-pointer">
+          <div className="h-48 mx-auto w-40 bg-gray-100 border border-gray-300 rounded-xl flex items-center justify-center cursor-pointer">
             {image ? (
               <Image
                 alt="image"

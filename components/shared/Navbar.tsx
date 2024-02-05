@@ -6,22 +6,25 @@ import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import Basket from "./Basket";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getCart } from "@/lib/db/cart";
+import { CartContext } from "@/context/CartContext";
 
 const Navbar = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
-  const [cart, setCart] = useState<CartParams>();
+  // const [cart, setCart] = useState<CartParams>();
   const [loading, setLoading] = useState<boolean>(true);
-  
+  const {cart, getClientCart} = useContext(CartContext);
+
   useEffect(() => {
-    
     const fetchCart = async () => {
       try {
         if(!userId) return setLoading(false);
-        const productsData = await getCart(userId);
-        setCart(productsData);
+        await getClientCart()
+
+        // const productsData = await getCart(userId);
+        // setCart(productsData);
         setLoading(false)
       } catch (error: any) {
         throw new Error(error);
@@ -30,8 +33,6 @@ const Navbar = () => {
 
     fetchCart();
   }, []);
-  
-
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">

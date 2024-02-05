@@ -1,21 +1,40 @@
 "use client";
 import Loading from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
+import { CartContext } from "@/context/CartContext";
 import { handleCart } from "@/lib/db/cart";
 import { ProductParams, getProductById } from "@/lib/db/product";
-import { currentUser, useAuth } from "@clerk/nextjs";
+import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import { redirect } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { redirect} from "next/navigation";
+import React, { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
-  const [product, setProduct] = useState<ProductParams | null>();
+  const [product, setProduct] = useState<ProductParams>();
   const [loading, setLoading] = useState<boolean>(true);
   const {userId} = useAuth();
+
+  const {getClientCart} = useContext(CartContext)
+
+  const handleProduct = async(productId:string) => {
+    try {
+      if(!userId || !productId) return null;   
+      
+      await handleCart(userId, productId);
+      await getClientCart()
+      toast.success("the product has been added!")
+    } catch (error: any) {
+      throw new Error(error);
+    }
+  }
+
   useEffect(() => {
     const fetchWomenProducts = async () => {
       try {
         const productData = await getProductById(params.id);
+        if(!productData.product) throw new Error("Product not found")
         setProduct(productData.product);
       } catch (error: any) {
         throw new Error(error);
@@ -72,11 +91,7 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
               currency: "USD",
             })}
           </p>
-            <Button onClick={()=>{
-              const productId = product.id
-              if(!userId || !productId) return null;        
-              return handleCart(userId, productId)
-            }} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
+            <Button onClick={()=>handleProduct(product.id)} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
         </div>
       </div>
     </section>

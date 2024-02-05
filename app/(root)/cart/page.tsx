@@ -4,15 +4,16 @@ import { changeQuantityCartItem, getCart, removeCartItem } from "@/lib/db/cart";
 import { CartParams } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input"
 import Loading from "@/components/shared/Loading";
+import { CartContext } from "@/context/CartContext";
 
 const CartPage = () => {
   const [cart, setCart] = useState<CartParams | null>();
   const [loading, setLoading] = useState<boolean>(true);
-
+  const {getClientCart} = useContext(CartContext)
   const { userId } = useAuth();
 
   const handleRemove = async (itemId:string) => {
@@ -20,6 +21,7 @@ const CartPage = () => {
       await removeCartItem(itemId)
       toast.success("You have successfully removed the item from your cart")
       fetchCart();
+      getClientCart();
     } catch (error:any) {
       throw new Error(error)
     }
@@ -39,6 +41,7 @@ const CartPage = () => {
     try {
       await changeQuantityCartItem(id, quantity)
       fetchCart();
+      getClientCart()
     } catch (error:any) {
       throw new Error(error)
     }
@@ -59,15 +62,15 @@ const CartPage = () => {
         {cart?.items.map((item) => {
           const total = item.product.price * item.quantity;
           return (
-            <div className="flex flex-col md:flex-row" key={item.product.id}>
-              <div className="flex items-center gap-4">
+            <div className="flex xs:flex-col items-center justify-between md:flex-row gap-4" key={item.product.id}>
+              <div className="flex items-center gap-4 w-fit">
               <Image
                 src={item.product.image}
                 width={150}
                 height={150}
                 alt={item.product.name}
                 priority={true}
-                className="rounded-lg overflow-hidden object-cover max-h-[150px]"
+                className="rounded-lg overflow-hidden object-cover max-h-[150px] max-w-[150px]"
               />
               <div className="flex flex-col">
                 <p className="text-xl font-semibold">{item.product.name}</p>
@@ -90,8 +93,8 @@ const CartPage = () => {
               </div>
               </div>
 
-                  <div className="w-full flex justify-end">
-                  <Button variant="destructive" className="h-12 w-full md:w-24" onClick={()=>handleRemove(item.id)}>Remove</Button>
+                  <div className="xs:w-full md:w-fit flex justify-end">
+                  <Button variant="destructive" className="h-12 xs:w-full md:w-24" onClick={()=>handleRemove(item.id)}>Remove</Button>
                   </div>
             </div>
           );
