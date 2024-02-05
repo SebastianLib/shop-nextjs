@@ -1,11 +1,12 @@
 import Pagination from "@/components/shared/Pagination";
 import SingleItem from "@/components/shared/SingleItem";
-import { ProductParams, getAllProducts } from "@/lib/db/product";
+import { getAllProducts } from "@/lib/db/product";
+import { Product } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AllProducts = () => {
-  const [products, setProducts] = useState<ProductParams[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
   const [actualPage, setActualPage] = useState<number>(1);
   const [skip, setSkip] = useState<number>(4);
