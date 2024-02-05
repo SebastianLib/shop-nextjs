@@ -24,7 +24,7 @@ export interface CategoryProps {
 }
 
 export interface CartParams{
-  id?:string
+  id:string
   userId:string
   createdAt:Date | null
   updatedAt:Date | null
