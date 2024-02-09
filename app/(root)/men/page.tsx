@@ -68,7 +68,6 @@ const MenPage = () => {
         page ? setActualPage(parseInt(page)) : setActualPage(1)
         const actualPage = page ? parseInt(page) - 1 : 0;
 
-
         const productsData = await getProducts("Men", params, actualPage, skip);
 
         setTotalProductsPages(Math.ceil(productsData?.totalProducts / skip));

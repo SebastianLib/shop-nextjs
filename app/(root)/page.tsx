@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import Choice from "./components/Choice";
-import LatestProducts from "./components/LatestProducts";
-import AllProducts from "./components/AllProducts";
+import Choice from "./_components/Choice";
+import LatestProducts from "./_components/LatestProducts";
+import AllProducts from "./_components/AllProducts";
 import Loading from "@/components/shared/Loading";
 
 const Home = () => {

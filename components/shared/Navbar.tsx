@@ -7,25 +7,25 @@ import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import Basket from "./Basket";
 import { useContext, useEffect, useState } from "react";
-import { getCart } from "@/lib/db/cart";
 import { CartContext } from "@/context/CartContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const { userId } = useAuth();
   const pathname = usePathname();
   // const [cart, setCart] = useState<CartParams>();
   const [loading, setLoading] = useState<boolean>(true);
-  const {cart, getClientCart} = useContext(CartContext);
+  const { cart, getClientCart } = useContext(CartContext);
 
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        if(!userId) return setLoading(false);
-        await getClientCart()
+        if (!userId) return setLoading(false);
+        await getClientCart();
 
         // const productsData = await getCart(userId);
         // setCart(productsData);
-        setLoading(false)
+        setLoading(false);
       } catch (error: any) {
         throw new Error(error);
       }
@@ -36,13 +36,16 @@ const Navbar = () => {
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">
-        <h1
+        
+        <Link href="/">
+        <div
           className={`${
             userId ? "hidden" : "flex"
           } sm:flex font-semibold text-2xl sm:text-3xl md:text-4xl`}
         >
-          Shop
-        </h1>
+          <Image height={130} width={130} alt="logo" src="/logo.svg" />
+        </div>
+        </Link>
         <ul className="hidden sm:flex  gap-8 md:gap-12 shrink-0">
           {links.map((link) => {
             return (
@@ -65,9 +68,9 @@ const Navbar = () => {
         </ul>
         <SignedIn>
           <div className="flex items-center gap-4">
-            {cart && <Basket {...cart}/>}
+            {cart && <Basket {...cart} />}
             <div className="hidden sm:flex">
-            <UserButton/>
+              <UserButton />
             </div>
           </div>
         </SignedIn>
