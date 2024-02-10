@@ -1,12 +1,12 @@
-"use client"
-import { ProductParams } from "@/lib/db/product"
-import Image from "next/image"
-import Link from "next/link"
+"use client";
+import { ProductParams } from "@/lib/db/product";
+import { formatPrice } from "@/lib/formatPrice";
+import Image from "next/image";
+import Link from "next/link";
 
-const SingleItem = (product:ProductParams) => {
-    
+const SingleItem = (product: ProductParams) => {
   return (
-        <Link href={`/product/${product?.id}`} key={product?.id}>
+    <Link href={`/product/${product?.id}`} key={product?.id}>
       <div className="flex flex-col p-4 rounded-xl h-[480px] border gap-4 transition hover:bg-slate-50">
         <Image
           src={product?.image}
@@ -18,17 +18,14 @@ const SingleItem = (product:ProductParams) => {
         />
         <div>
           <h2 className="text-2xl">{product?.name}</h2>
-          <p className="text-gray-600">{product?.description.substring(0, 40)}...</p>
-          <p className="mt-2 text-lg">
-            {product?.price.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+          <p className="text-gray-600">
+            {product?.description.substring(0, 40)}...
           </p>
+          <p className="mt-2 text-lg">{formatPrice(product?.price)}</p>
         </div>
       </div>
     </Link>
-  )
-}
+  );
+};
 
-export default SingleItem
+export default SingleItem;

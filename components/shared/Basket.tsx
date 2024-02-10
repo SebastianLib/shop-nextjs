@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { CartParams } from "@/lib/utils";
+import { formatPrice } from "@/lib/formatPrice";
 
 const Basket = (cart: CartParams) => {
   return (
@@ -25,13 +26,7 @@ const Basket = (cart: CartParams) => {
       <DropdownMenuContent className="p-4 flex flex-col">
         <DropdownMenuLabel className="text-md">
           <h2>Items: {cart?.quantity}</h2>
-          <p>
-            Subtotal{" "}
-            {cart?.totalPrice.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </p>
+          <p>Subtotal {formatPrice(cart?.totalPrice)}</p>
         </DropdownMenuLabel>
         <DropdownMenuItem className="focus:bg-transparent">
           <Link href="/cart">

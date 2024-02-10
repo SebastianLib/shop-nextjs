@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input"
 import Loading from "@/components/shared/Loading";
 import { CartContext } from "@/context/CartContext";
+import { formatPrice } from "@/lib/formatPrice";
 
 const CartPage = () => {
   const [cart, setCart] = useState<CartParams | null>();
@@ -77,18 +78,10 @@ const CartPage = () => {
                 <p className="flex items-center gap-2">Quantity: 
                 <Input onChange={(e)=>handleQuantity(parseInt(e.target.value), item.id)} className="w-16" type="number" defaultValue={item.quantity}/></p>
                 <p>
-                  Price:{" "}
-                  {item.product.price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
+                  Price:{formatPrice(item.product.price)}
                 </p>
                 <p>
-                  Total Price:{" "}
-                  {total.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
+                  Total Price: {formatPrice(total)}
                 </p>
               </div>
               </div>
@@ -100,11 +93,7 @@ const CartPage = () => {
           );
         })}
         <h2 className="text-center text-2xl font-semibold mt-4">
-          Total:{" "}
-          {cart?.totalPrice.toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
+          Total: {cart?.totalPrice ? formatPrice(cart?.totalPrice): "$0,00"}
         </h2>
         <Button variant="main" className="h-14">
           Checkout

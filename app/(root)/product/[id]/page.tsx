@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CartContext } from "@/context/CartContext";
 import { handleCart } from "@/lib/db/cart";
 import { ProductParams, getProductById } from "@/lib/db/product";
+import { formatPrice } from "@/lib/formatPrice";
 import { Product } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
@@ -86,11 +87,7 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
             <p className="text-xl lg:text-2xl text-gray-700">{product.description}</p>
           </div>
           <p className="text-xl">
-            {" "}
-            {product.price.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
+            {formatPrice(product.price)}
           </p>
             <Button onClick={()=>handleProduct(product.id)} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
         </div>
