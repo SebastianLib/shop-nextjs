@@ -6,47 +6,25 @@ import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import { usePathname } from "next/navigation";
 import Basket from "./Basket";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "@/context/CartContext";
 import Image from "next/image";
 
-const Navbar = () => {
+const Navbar = ({ cart }: any) => {
   const { userId } = useAuth();
   const pathname = usePathname();
-  // const [cart, setCart] = useState<CartParams>();
-  const [loading, setLoading] = useState<boolean>(true);
-  const { cart, getClientCart } = useContext(CartContext);
 
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        if (!userId) return setLoading(false);
-        await getClientCart();
-
-        // const productsData = await getCart(userId);
-        // setCart(productsData);
-        setLoading(false);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-
-    fetchCart();
-  }, []);
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">
-        
-        <Link href="/">
         <div
           className={`${
             userId ? "hidden" : "flex"
-          } sm:flex font-semibold text-2xl sm:text-3xl md:text-4xl`}
+          } md:flex font-semibold text-2xl sm:text-3xl md:text-4xl`}
         >
-          <Image height={130} width={130} alt="logo" src="/logo.svg" />
+          <Link href="/">
+            <Image height={130} width={130} alt="logo" src="/logo.svg" />
+          </Link>
         </div>
-        </Link>
-        <ul className="hidden sm:flex  gap-8 md:gap-12 shrink-0">
+        <ul className="hidden md:flex  gap-8 md:gap-12 shrink-0">
           {links.map((link) => {
             return (
               <li
@@ -69,13 +47,13 @@ const Navbar = () => {
         <SignedIn>
           <div className="flex items-center gap-4">
             {cart && <Basket {...cart} />}
-            <div className="hidden sm:flex">
+            <div className="hidden md:flex">
               <UserButton />
             </div>
           </div>
         </SignedIn>
         <SignedOut>
-          <div className="hidden sm:flex gap-4 text-black">
+          <div className="hidden md:flex gap-4 text-black">
             <Link href="/sign-in">
               <Button variant="outline">Log in</Button>
             </Link>
@@ -84,7 +62,7 @@ const Navbar = () => {
             </Link>
           </div>
         </SignedOut>
-        <div className="sm:hidden">
+        <div className="md:hidden">
           <MobileNavbar />
         </div>
       </div>

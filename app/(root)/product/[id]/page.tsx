@@ -1,15 +1,14 @@
 "use client";
 import Loading from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
-import { CartContext } from "@/context/CartContext";
 import { handleCart } from "@/lib/db/cart";
 import { ProductParams, getProductById } from "@/lib/db/product";
 import { formatPrice } from "@/lib/formatPrice";
 import { Product } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
 import Image from "next/image";
-import { redirect} from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
+import { redirect, useRouter} from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 
@@ -17,16 +16,15 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState<boolean>(true);
   const {userId} = useAuth();
-
-  const {getClientCart} = useContext(CartContext)
+  const router = useRouter()
 
   const handleProduct = async(productId:string) => {
     try {
       if(!userId || !productId) return null;   
       
       await handleCart(userId, productId);
-      await getClientCart()
       toast.success("the product has been added!")
+      router.refresh()
     } catch (error: any) {
       throw new Error(error);
     }

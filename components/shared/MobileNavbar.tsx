@@ -14,7 +14,7 @@ const MobileNavbar = () => {
   
   return (
     <Sheet>
-      <SheetTrigger className="sm:hidden">
+      <SheetTrigger>
         <Menu className="w-10 h-10" />
       </SheetTrigger>
       <SheetContent>

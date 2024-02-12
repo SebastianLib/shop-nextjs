@@ -8,13 +8,11 @@ import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Input } from "@/components/ui/input"
 import Loading from "@/components/shared/Loading";
-import { CartContext } from "@/context/CartContext";
 import { formatPrice } from "@/lib/formatPrice";
 
 const CartPage = () => {
   const [cart, setCart] = useState<CartParams | null>();
   const [loading, setLoading] = useState<boolean>(true);
-  const {getClientCart} = useContext(CartContext)
   const { userId } = useAuth();
 
   const handleRemove = async (itemId:string) => {
@@ -22,7 +20,6 @@ const CartPage = () => {
       await removeCartItem(itemId)
       toast.success("You have successfully removed the item from your cart")
       fetchCart();
-      getClientCart();
     } catch (error:any) {
       throw new Error(error)
     }
@@ -42,7 +39,6 @@ const CartPage = () => {
     try {
       await changeQuantityCartItem(id, quantity)
       fetchCart();
-      getClientCart()
     } catch (error:any) {
       throw new Error(error)
     }
