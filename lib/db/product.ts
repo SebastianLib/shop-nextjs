@@ -73,7 +73,18 @@ export async function getLatestProducts() {
   }
 }
 
-export async function getProducts(gender: string, params: { search: string | null, category: string | null, sort: string | null }, actualPage: number, skip: number) {
+interface GetProductsParams {
+  gender: string,
+  params: {
+    search: string | null,
+    category: string | null,
+    sort: string | null,
+  },
+  actualPage: number,
+  skip: number
+}
+
+export async function getProducts({gender, params, actualPage, skip}:GetProductsParams) {
   const { search, category, sort } = params
 
   interface OrderBy {
@@ -107,7 +118,7 @@ export async function getProducts(gender: string, params: { search: string | nul
 
   try {
     const totalProducts = await prisma.product.count(
-      {where: whereCondition}
+      { where: whereCondition }
     )
     const products = await prisma.product.findMany(
       {

@@ -13,26 +13,6 @@ const AllProducts = () => {
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { replace } = useRouter();
-
-  function handleNextPage() {
-    const params = new URLSearchParams(searchParams);
-    const page = actualPage + 1;
-    params.set("page", page.toString());
-    replace(`${pathname}?${params.toString()}`);
-  }
-
-  function handlePrevPage() {
-    const params = new URLSearchParams(searchParams);
-    const page = actualPage - 1;
-    params.set("page", page.toString());
-    replace(`${pathname}?${params.toString()}`);
-  }
-  const handlePage = (page:number) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", page.toString());
-    replace(`${pathname}?${params.toString()}`);
-  }
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -60,10 +40,9 @@ const AllProducts = () => {
       </div>
 
           <Pagination 
+      pathname={pathname}
+      searchParams={searchParams}
           actualPage={actualPage} 
-          handlePrevPage={handlePrevPage} 
-          handleNextPage={handleNextPage}
-          handlePage={handlePage}
           totalProductsPages={totalProductsPages} 
           />
     </div>

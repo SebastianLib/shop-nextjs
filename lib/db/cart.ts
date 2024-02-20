@@ -6,9 +6,10 @@ import { prisma } from "./prisma";
 export const handleCart = async (userId: string, productId: string) => {
 
 try {
-    const cart = await prisma.shoppingCart.findUnique({
+    const cart = await prisma.shoppingCart.findFirst({
         where: {
             userId: userId,
+            sold: false
         }
     });
     if(!cart) throw new Error("unauthorized")
@@ -48,9 +49,10 @@ try {
 
 export const getCart = async (userId: string) => {
     try {
-        const cart = await prisma.shoppingCart.findUnique({
+        const cart = await prisma.shoppingCart.findFirst({
             where: {
                 userId,
+                sold: false
             },
             include: {
                 items: {
@@ -83,9 +85,10 @@ export const getCart = async (userId: string) => {
                     userId: userId,
                 }
             })
-            const cart = await prisma.shoppingCart.findUnique({
+            const cart = await prisma.shoppingCart.findFirst({
                 where: {
                     userId,
+                    sold: false
                 },
                 include: {
                     items: {

@@ -10,20 +10,37 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { getCategories } from "@/lib/db/category";
 import { CategoryProps } from "@/lib/utils";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ProductFiltersProps {
   handleSearchParams: { (name: string, term: string): void };
 }
 
-const ProductsFilters = ({
-  handleSearchParams,
-}: ProductFiltersProps) => {
+const ProductsFilters = () => {
+  const { replace } = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  function handleSearchParams(name: string, term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set(name, term);
+    } else {
+      params.delete(name);
+    }
+    if(term === "all"){
+      params.delete(name)
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+
   const [categories, setCategories] = useState<CategoryProps[]>();
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const categoriesData = await getCategories();
-        setCategories(categoriesData?.categories);
+        setCategories(categoriesData);
       } catch (error: any) {
         throw new Error(error);
       }

@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Alert from "./Alert";
+import CreateAlert from "./_components/CreateAlert";
 import { useEffect, useState } from "react";
 import { getCategories } from "@/lib/db/category";
 import { Textarea } from "@/components/ui/textarea";
@@ -78,7 +78,7 @@ const CreatePage = () => {
     const fetchCategories = async () => {
       try {
         const categoriesData = await getCategories();
-        setCategories(categoriesData?.categories);
+        setCategories(categoriesData);
 
       } catch (error:any) {
         throw new Error(error)
@@ -213,7 +213,7 @@ const CreatePage = () => {
                       </SelectItem>
                     ))}
                     <div className="ml-6 my-2">
-                      <Alert />
+                      <CreateAlert />
                     </div>
                   </SelectContent>
                 </Select>
@@ -252,8 +252,6 @@ const CreatePage = () => {
                   },
                 }}
                 onClientUploadComplete={(res) => {
-                  // Do something with the response
-                  // console.log("Files: ", res);
                   setImage(res[0].url);
                 }}
               />

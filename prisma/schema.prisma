@@ -32,22 +32,40 @@ model Category {
 }
 
 model ShoppingCart {
-  id         String             @id @default(auto()) @map("_id") @db.ObjectId
-  userId     String @unique
-  createdAt  DateTime?          @default(now())
-  updatedAt  DateTime?          @updatedAt
-  items      ShoppingCartItem[]
+  id        String             @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    
+  createdAt DateTime?          @default(now())
+  updatedAt DateTime?          @updatedAt
+  items     ShoppingCartItem[]
+  sold Boolean @default(false)
 }
 
 model ShoppingCartItem {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  productId String    @db.ObjectId
-  quantity  Int
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  shoppingCartId String?       @db.ObjectId
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  productId      String    @db.ObjectId
+  quantity       Int
+  createdAt      DateTime? @default(now())
+  updatedAt      DateTime? @updatedAt
+  shoppingCartId String?   @db.ObjectId
 
-  product        Product       @relation(fields: [productId], references: [id])
-  ShoppingCart   ShoppingCart? @relation(fields: [shoppingCartId], references: [id])
+  product          Product       @relation(fields: [productId], references: [id])
+  ShoppingCart     ShoppingCart? @relation(fields: [shoppingCartId], references: [id])
+  stripeCustomerId String?       @db.ObjectId
 }
 
+model Purchase {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String
+  cartId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model StripeCustomer {
+  id               String @id @default(auto()) @map("_id") @db.ObjectId
+  userId           String @unique
+  stripeCustomerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

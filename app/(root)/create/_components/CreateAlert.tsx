@@ -15,7 +15,7 @@ import { useState } from "react";
 import { createCategory } from "@/lib/db/category";
 import { usePathname } from "next/navigation";
 
-const Alert = () => {
+const CreateAlert = () => {
   const path = usePathname();
     const [newCategory, setNewCategory] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false);
@@ -62,4 +62,4 @@ const Alert = () => {
   )
 }
 
-export default Alert
+export default CreateAlert
