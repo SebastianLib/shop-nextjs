@@ -40,8 +40,6 @@ const AllProducts = () => {
       </div>
 
           <Pagination 
-      pathname={pathname}
-      searchParams={searchParams}
           actualPage={actualPage} 
           totalProductsPages={totalProductsPages} 
           />
