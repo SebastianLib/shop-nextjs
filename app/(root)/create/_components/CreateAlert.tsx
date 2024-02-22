@@ -14,8 +14,13 @@ import { Input } from "@/components/ui/input"
 import { useState } from "react";
 import { createCategory } from "@/lib/db/category";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
-const CreateAlert = () => {
+interface CreateAlertProps{
+  fetchCategories: () => void
+}
+
+const CreateAlert = ({fetchCategories}:CreateAlertProps) => {
   const path = usePathname();
     const [newCategory, setNewCategory] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,12 +33,13 @@ const CreateAlert = () => {
           setLoading(true);
           setOpenModal(true);
           await createCategory({newCategory, path});
+          fetchCategories();
+        } catch (error) {
+          setError("Something went wrong...");
+        } finally{
           setOpenModal(false)
           setLoading(false);
-        } catch (error) {
-          setLoading(false);
-          setError("Something went wrong...");
-        } 
+        }
     }
 
   return (
@@ -51,9 +57,9 @@ const CreateAlert = () => {
         />
         </AlertDialogDescription>
       </AlertDialogHeader>
-      <AlertDialogFooter>
-          <AlertDialogCancel onClick={()=>setOpenModal(false)}>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={addNewCategory}>{loading ? "Adding new cateogry...": "Continue"}</AlertDialogAction>
+      <AlertDialogFooter className="flex items-center">
+        <AlertDialogCancel onClick={()=>setOpenModal(false)}>Cancel</AlertDialogCancel>
+        <AlertDialogAction className="bg-violet-600 mt-2" onClick={addNewCategory}>{loading ? "Adding new cateogry...": "Continue"}</AlertDialogAction>
       </AlertDialogFooter>
       {error && <p>{error}</p>}
     </AlertDialogContent>

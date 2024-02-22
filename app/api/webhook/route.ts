@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         }
     })
 
-    const purchase = await prisma.purchase.create({
+     await prisma.purchase.create({
       data:{
         userId: userId,
         cartId: cartId,

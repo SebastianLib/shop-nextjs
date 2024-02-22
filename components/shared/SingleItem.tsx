@@ -17,7 +17,7 @@ const SingleItem = (product: ProductParams) => {
           className="w-full h-80 max-h-80 object-cover object-center"
         />
         <div>
-          <h2 className="text-2xl">{product?.name}</h2>
+          <h2 className="text-2xl line-clamp-1">{product?.name}</h2>
           <p className="text-gray-600">
             {product?.description.substring(0, 40)}...
           </p>

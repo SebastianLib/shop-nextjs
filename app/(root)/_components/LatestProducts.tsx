@@ -69,7 +69,7 @@ const LatestProducts = () => {
                 className="w-full h-80 max-h-80 object-contain"
               />
               <div>
-                <h2 className="text-2xl">{product.name}</h2>
+                <h2 className="text-2xl line-clamp-1">{product.name}</h2>
                 <p className="text-gray-600">{product.description.substring(0, 60)}...</p>
                 <p className="mt-2 text-lg">
                   {product.price.toLocaleString("en-US", {

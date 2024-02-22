@@ -1,16 +1,21 @@
-import { ReadonlyURLSearchParams, usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ProductFiltersProps {
-    actualPage: number,
     totalProductsPages: number,
   }
 
-const Pagination = ({actualPage, totalProductsPages}:ProductFiltersProps) => {
+const Pagination = ({ totalProductsPages}:ProductFiltersProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const { replace } = useRouter();
+
+  let page = searchParams.get("page");
+  let actualPage= page? parseInt(page) : 1;  
+  const params = new URLSearchParams(searchParams);
+
     const numberOfItems = 3;
     const arrayOfObjects = [];
-    const { replace } = useRouter();
+
     if (actualPage && totalProductsPages) {
       for (let i = 0; i < numberOfItems; i++) {
         if (
@@ -23,21 +28,19 @@ const Pagination = ({actualPage, totalProductsPages}:ProductFiltersProps) => {
         }
       }
     }
+    
     function handleNextPage() {
-      const params = new URLSearchParams(searchParams);
       const page = actualPage + 1;
       params.set("page", page.toString());
       replace(`${pathname}?${params.toString()}`);
     }
   
     function handlePrevPage() {
-      const params = new URLSearchParams(searchParams);
       const page = actualPage - 1;
       params.set("page", page.toString());
       replace(`${pathname}?${params.toString()}`);
     }
     const handlePage = (page:number) => {
-      const params = new URLSearchParams(searchParams);
       params.set("page", page.toString());
       replace(`${pathname}?${params.toString()}`);
     }

@@ -8,17 +8,15 @@ import { useEffect, useState } from "react";
 const AllProducts = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
-  const [actualPage, setActualPage] = useState<number>(1);
   const [skip, setSkip] = useState<number>(4);
 
   const searchParams = useSearchParams();
-  const pathname = usePathname();
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const page = searchParams.get("page");
-        page ? setActualPage(parseInt(page)) : setActualPage(1)
+
         const actualPage = page ? parseInt(page) - 1 : 0;
         const productsData = await getAllProducts(actualPage, skip);
         setTotalProductsPages(Math.ceil(productsData?.totalProducts / skip));
@@ -40,7 +38,6 @@ const AllProducts = () => {
       </div>
 
           <Pagination 
-          actualPage={actualPage} 
           totalProductsPages={totalProductsPages} 
           />
     </div>

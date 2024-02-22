@@ -7,33 +7,37 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getCategories } from "@/lib/db/category";
 import { CategoryProps } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-
-interface ProductFiltersProps {
-  handleSearchParams: { (name: string, term: string): void };
-}
 
 const ProductsFilters = () => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const params = new URLSearchParams(searchParams);
 
-  function handleSearchParams(name: string, term: string) {
-    const params = new URLSearchParams(searchParams);
+  let searchTimeout:ReturnType<typeof setTimeout>
+
+  const handleSearchParams= (name:string, term:string) => {
+
+    clearTimeout(searchTimeout);
+  
     if (term) {
       params.set(name, term);
     } else {
       params.delete(name);
     }
-    if(term === "all"){
-      params.delete(name)
+  
+    if (term === "all") {
+      params.delete(name);
     }
-    replace(`${pathname}?${params.toString()}`);
-  }
 
+    searchTimeout = setTimeout(() => {
+      replace(`${pathname}?${params.toString()}`);
+    }, 200);
+  };
 
   const [categories, setCategories] = useState<CategoryProps[]>();
   useEffect(() => {
@@ -54,6 +58,7 @@ const ProductsFilters = () => {
         onChange={(e) => handleSearchParams("search", e.target.value)}
         type="text"
         placeholder="Search"
+        defaultValue={params.get("search") || ""}
       />
 
       <div className="flex xs:justify-center md:justify-end gap-4">

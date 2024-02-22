@@ -30,7 +30,7 @@ import { createProduct } from "@/lib/db/product";
 import { useUser } from "@clerk/nextjs";
 import { CategoryProps, gender } from "@/lib/utils";
 import { useRouter } from 'next/navigation'
-import { Bounce, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import Loading from "@/components/shared/Loading";
 
 const formSchema = z.object({
@@ -40,7 +40,6 @@ const formSchema = z.object({
   price: z.number(),
   gender: z.string(),
 });
-
 
 const CreatePage = () => {
   const [categories, setCategories] = useState<CategoryProps[]>();
@@ -74,18 +73,17 @@ const CreatePage = () => {
     }
   }
 
+  const fetchCategories = async () => {
+    try {
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+    } catch (error:any) {
+      throw new Error(error)
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const categoriesData = await getCategories();
-        setCategories(categoriesData);
-
-      } catch (error:any) {
-        throw new Error(error)
-      }
-      setLoading(false);
-    };
-
     fetchCategories();
   }, []);
   
@@ -213,7 +211,7 @@ const CreatePage = () => {
                       </SelectItem>
                     ))}
                     <div className="ml-6 my-2">
-                      <CreateAlert />
+                      <CreateAlert fetchCategories={fetchCategories}/>
                     </div>
                   </SelectContent>
                 </Select>

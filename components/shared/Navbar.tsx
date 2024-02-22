@@ -1,16 +1,14 @@
-"use client";
 import { CartParams, links } from "@/lib/utils";
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton, useAuth } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, auth, useAuth } from "@clerk/nextjs";
 import { Button } from "../ui/button";
-import { usePathname } from "next/navigation";
 import Basket from "./Basket";
 import Image from "next/image";
+import NavbarLinks from "./NavbarLinks";
 
 const Navbar = ({ cart }: any) => {
-  const { userId } = useAuth();
-  const pathname = usePathname();
+  const { userId } = auth();
 
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
@@ -24,26 +22,7 @@ const Navbar = ({ cart }: any) => {
             <Image height={130} width={130} alt="logo" src="/logo.svg" />
           </Link>
         </div>
-        <ul className="hidden md:flex  gap-8 md:gap-12 shrink-0">
-          {links.map((link) => {
-            return (
-              <li
-                key={link.label}
-                className={`sm:text-md md:text-xl relative before:content-[''] before:w-0 before:h-[2px] before:bg-violet-500 before:absolute 
-                before:-bottom-2 hover:before:w-full before:left-[50%] hover:before:left-0 before:transition-all ${
-                  pathname == link.href && "text-violet-600 "
-                }`}
-              >
-                <Link
-                  className={`${pathname == link.href && "text-violet-600"}`}
-                  href={link.href}
-                >
-                  {link.label}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        <NavbarLinks/>
         <SignedIn>
           <div className="flex items-center gap-4">
             {cart && <Basket {...cart} />}
