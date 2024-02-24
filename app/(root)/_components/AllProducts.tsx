@@ -1,12 +1,13 @@
+"use client";
 import Pagination from "@/components/shared/Pagination";
 import SingleItem from "@/components/shared/SingleItem";
 import { getAllProducts } from "@/lib/db/product";
-import { Product } from "@/lib/utils";
+import { Product } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AllProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>();
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
   const [skip, setSkip] = useState<number>(4);
 
@@ -37,9 +38,7 @@ const AllProducts = () => {
         ))}
       </div>
 
-          <Pagination 
-          totalProductsPages={totalProductsPages} 
-          />
+      <Pagination totalProductsPages={totalProductsPages} />
     </div>
   );
 };

@@ -1,14 +1,15 @@
 "use client";
 import SingleItem from "@/components/shared/SingleItem";
-import { ProductParams, getProducts } from "@/lib/db/product";
+import { getProducts } from "@/lib/db/product";
 import {useSearchParams } from "next/navigation";
+import { Product } from "@prisma/client";
 import { useEffect, useState } from "react";
 import ProductsFilters from "@/components/shared/ProductsFilters";
 import Loading from "@/components/shared/Loading";
 import Pagination from "@/components/shared/Pagination";
 
 const MenPage = () => {
-  const [products, setProducts] = useState<ProductParams[]>();
+  const [products, setProducts] = useState<Product[]>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
@@ -21,8 +22,9 @@ const MenPage = () => {
         setLoading(true);
         const search = searchParams.get("search");
         const category = searchParams.get("category");
+        const size = searchParams.get("size");
         const sort = searchParams.get("sort");
-        const params = { search, category, sort };
+        const params = { search, category, sort, size };
 
         const page = searchParams.get("page");
         const actualPage = page ? parseInt(page) - 1 : 0;

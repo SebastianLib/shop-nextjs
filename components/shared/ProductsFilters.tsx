@@ -9,10 +9,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { useEffect, useRef, useState } from "react";
 import { getCategories } from "@/lib/db/category";
-import { CategoryProps } from "@/lib/utils";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { getSizes } from "@/lib/db/size";
+import { Category, Size } from "@prisma/client";
 
 const ProductsFilters = () => {
+  const [categories, setCategories] = useState<Category[]>();
+  const [sizes, setSizes] = useState<Size[]>();
+  const [loading, setLoading] = useState<boolean>();
+
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -39,17 +44,21 @@ const ProductsFilters = () => {
     }, 200);
   };
 
-  const [categories, setCategories] = useState<CategoryProps[]>();
+  
+  const fetchCategoriesAndSizes = async () => {
+    try {
+      const categoriesData = await getCategories();
+      const sizesData = await getSizes();
+      setCategories(categoriesData);
+      setSizes(sizesData);
+    } catch (error: any) {
+      throw new Error(error);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const categoriesData = await getCategories();
-        setCategories(categoriesData);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-    fetchCategories();
+    fetchCategoriesAndSizes();
   }, []);
 
   return (
@@ -73,6 +82,21 @@ const ProductsFilters = () => {
             {categories?.map((item) => (
               <SelectItem key={item.id} value={item.name}>
                 {item.name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select
+          onValueChange={(value) => handleSearchParams("size", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Size" />
+          </SelectTrigger>
+          <SelectContent>
+            {sizes?.map((item) => (
+              <SelectItem key={item.id} value={item.size}>
+                {item.size}
               </SelectItem>
             ))}
           </SelectContent>

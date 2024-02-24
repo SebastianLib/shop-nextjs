@@ -13,7 +13,11 @@ export const getPurchasedItems = async (userId: string) => {
             include: {
                 items: {
                     include: {
-                        product: true
+                        product: {
+                            include:{
+                                size:true
+                            }
+                        }
                     }
                 }
             },

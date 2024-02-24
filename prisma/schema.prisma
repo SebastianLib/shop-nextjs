@@ -19,37 +19,47 @@ model Product {
   description      String
   price            Float
   gender           String
-  createdAt        DateTime          @default(now())
-  updatedAt        DateTime          @updatedAt
+  sizeId           String?             @db.ObjectId
+  size             Size?               @relation(fields: [sizeId], references: [id])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   ShoppingCartItem ShoppingCartItem[]
 }
 
 model Category {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  name      String    @unique
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Size {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  size      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
+}
+
 model ShoppingCart {
   id        String             @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String    
-  createdAt DateTime          @default(now())
-  updatedAt DateTime          @updatedAt
+  userId    String
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
   items     ShoppingCartItem[]
-  sold Boolean @default(false)
+  sold      Boolean            @default(false)
 }
 
 model ShoppingCartItem {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  productId      String    @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  productId      String   @db.ObjectId
   quantity       Int
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  shoppingCartId String?   @db.ObjectId
+  shoppingCartId String?  @db.ObjectId
 
-  product          Product       @relation(fields: [productId], references: [id])
-  ShoppingCart     ShoppingCart? @relation(fields: [shoppingCartId], references: [id])
+  product      Product       @relation(fields: [productId], references: [id])
+  ShoppingCart ShoppingCart? @relation(fields: [shoppingCartId], references: [id])
 }
 
 model Purchase {

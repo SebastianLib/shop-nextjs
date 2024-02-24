@@ -1,5 +1,6 @@
 "use client";
-import { ProductParams, getAllProducts, getLatestProducts } from "@/lib/db/product";
+import { getLatestProducts } from "@/lib/db/product";
+import { Product } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,7 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
 const LatestProducts = () => {
-  const [products, setProducts] = useState<ProductParams[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -36,7 +37,7 @@ const LatestProducts = () => {
       slidesPerView={1}
       navigation
       pagination={{ clickable: true }}
-      className="w-full flex items-center justify-center mb-4"
+      className="w-full flex items-center justify-center"
       breakpoints={{
         420: {
           slidesPerView: 1,

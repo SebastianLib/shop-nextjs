@@ -1,11 +1,13 @@
 import { getPurchasedItems } from "@/lib/db/purchased-items";
 import { auth } from "@clerk/nextjs";
-import { Product, ShoppingCartItem } from "@prisma/client";
+import { Product, ShoppingCartItem, Size } from "@prisma/client";
 import { redirect } from "next/navigation";
 import PurchasedItemsList from "./_components/PurchasedItemsList";
 
 interface PurchasedProduct extends ShoppingCartItem {
-  product: Product;
+  product: Product &{
+    size: Size
+  };
 }
 
 const PurchasedPage = async () => {
@@ -18,13 +20,10 @@ const PurchasedPage = async () => {
   const purchasedItems = await getPurchasedItems(userId!);
 
   const allItems = purchasedItems!.reduce((accumulator, obj) => {
-    return accumulator.concat(obj.items);
+    return accumulator.concat(obj.items as PurchasedProduct[]);
   }, [] as PurchasedProduct[]);
-
   return (
-    <div>
       <PurchasedItemsList allItems={allItems} />
-    </div>
   );
 };
 

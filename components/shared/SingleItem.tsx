@@ -1,10 +1,10 @@
 "use client";
-import { ProductParams } from "@/lib/db/product";
+import { Product } from "@prisma/client";
 import { formatPrice } from "@/lib/formatPrice";
 import Image from "next/image";
 import Link from "next/link";
 
-const SingleItem = (product: ProductParams) => {
+const SingleItem = (product: Product) => {
   return (
     <Link href={`/product/${product?.id}`} key={product?.id}>
       <div className="flex flex-col p-4 rounded-xl h-[480px] border gap-4 transition hover:bg-slate-50">

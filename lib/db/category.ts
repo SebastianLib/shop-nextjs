@@ -1,21 +1,14 @@
 "use server"
-import { revalidatePath } from "next/cache";
 import { prisma } from "./prisma"
 
-interface CreateCategoryParams {
-  newCategory: string;
-  path: string;
-}
-
-export async function createCategory({ newCategory, path }: CreateCategoryParams) {
+export async function createCategory(newItem:string) {
   try {
     const newUser = await prisma.category.create({
       data: {
-        name: newCategory,
+        name: newItem,
         createdAt: new Date(),
       },
     });
-    revalidatePath(path)
     return {
       newUser
     };

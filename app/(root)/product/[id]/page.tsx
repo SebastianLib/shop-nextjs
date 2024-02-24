@@ -2,10 +2,11 @@
 import Loading from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
 import { handleCart } from "@/lib/db/cart";
-import { ProductParams, getProductById } from "@/lib/db/product";
+import {  getProductById } from "@/lib/db/product";
 import { formatPrice } from "@/lib/formatPrice";
 import { Product } from "@/lib/utils";
 import { useAuth } from "@clerk/nextjs";
+import { Size } from "@prisma/client";
 import Image from "next/image";
 import { redirect, useRouter} from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -13,11 +14,13 @@ import { toast } from "react-toastify";
 
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<Product &{
+    size: Size | null,
+  }>();
   const [loading, setLoading] = useState<boolean>(true);
   const {userId} = useAuth();
   const router = useRouter()
-
+  
   const handleProduct = async(productId:string) => {
     try {
       if(!userId || !productId) return null;   
@@ -31,18 +34,18 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
   }
 
   useEffect(() => {
-    const fetchWomenProducts = async () => {
+    const fetchProducts = async () => {
       try {
         const productData = await getProductById(params.id);
-        if(!productData.product) throw new Error("Product not found")
-        setProduct(productData.product);
+        if(!productData) throw new Error("Product not found")
+        setProduct(productData);
       } catch (error: any) {
         throw new Error(error);
       }
       setLoading(false);
     };
 
-    fetchWomenProducts();
+    fetchProducts();
   }, []);
 
 
@@ -82,6 +85,7 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
         <div className="flex flex-col self-start md:self-center w-full gap-4 ">
           <div className="flex flex-col gap-4">
             <h1 className="text-3xl lg:text-5xl font-semibold">{product.name}</h1>
+            <p className="text-xl lg:text-2xl font-semibold">size: {product?.size?.size}</p>
             <p className="text-xl lg:text-2xl text-gray-700">{product.description}</p>
           </div>
           <p className="text-xl">

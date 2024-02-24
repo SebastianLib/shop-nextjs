@@ -1,5 +1,6 @@
 "use server"
 import { prisma } from "./prisma";
+import { getSizeId } from "./size";
 
 export interface ProductParams {
   id?: string;
@@ -10,11 +11,12 @@ export interface ProductParams {
   description: string;
   price: number;
   gender: string;
+  size: string
   createdAt?: Date | null;
   updatedAt?: Date | null;
 }
 export async function createProduct({ ...newProduct }: ProductParams) {
-  const { name, categoryName, description, price, image, userId, gender } = newProduct
+  const { name, categoryName, description, price, image, userId, gender, size } = newProduct
   try {
     const product = await prisma.product.create({
       data: {
@@ -24,6 +26,7 @@ export async function createProduct({ ...newProduct }: ProductParams) {
         price,
         image,
         userId,
+        sizeId: size,
         gender,
         createdAt: new Date(),
       },
@@ -79,14 +82,19 @@ interface GetProductsParams {
     search: string | null,
     category: string | null,
     sort: string | null,
+    size: string | null
   },
   actualPage: number,
   skip: number
 }
 
 export async function getProducts({gender, params, actualPage, skip}:GetProductsParams) {
-  const { search, category, sort } = params
-
+  const { search, category, sort, size } = params
+  let sizeId
+    if(size){
+      sizeId = await getSizeId(size)
+    }
+  
   interface OrderBy {
     [key: string]: string;
   }
@@ -105,7 +113,8 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
   const whereCondition: {
     gender: string;
     categoryName?: string;
-    name?: { contains: string; mode: any }
+    name?: { contains: string; mode: any };
+    sizeId?: string
   } = {
     gender: gender,
   };
@@ -114,6 +123,9 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
   }
   if (search) {
     whereCondition.name = { contains: search, mode: "insensitive" };
+  }
+  if (sizeId) {
+    whereCondition.sizeId = sizeId;
   }
 
   try {
@@ -144,12 +156,13 @@ export async function getProductById(id: string) {
       {
         where: {
           id
+        },
+        include:{
+          size: true
         }
       }
     );
-    return {
-      product
-    };
+    return product
   } catch (error) {
     console.error("error loading products:", error);
     throw error;
