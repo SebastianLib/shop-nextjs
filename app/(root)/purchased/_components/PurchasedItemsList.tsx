@@ -38,8 +38,7 @@ const PurchasedItemsListComponent = ({
                   quantity: <span className="font-bold xs:text-sm sm:text-md">{item.quantity}</span>
                 </p>
                 <p>
-                  purchased:
-                  <span className="font-bold xs:text-sm sm:text-lg">
+                  purchased: <span className="font-bold xs:text-sm sm:text-lg">
                     {format(new Date(item.createdAt!.toString()), "MM/dd/yyyy")}
                   </span>
                 </p>
