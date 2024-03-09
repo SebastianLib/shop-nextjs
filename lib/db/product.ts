@@ -11,23 +11,13 @@ export interface ProductParams {
   description: string;
   price: number;
   gender: string;
-  size: string
-  createdAt?: Date | null;
-  updatedAt?: Date | null;
+  sizeId: string
 }
-export async function createProduct({ ...newProduct }: ProductParams) {
-  const { name, categoryName, description, price, image, userId, gender, size } = newProduct
+export async function createProduct( newProduct : ProductParams) {
   try {
     const product = await prisma.product.create({
       data: {
-        name,
-        categoryName: categoryName,
-        description,
-        price,
-        image,
-        userId,
-        sizeId: size,
-        gender,
+        ...newProduct,
         createdAt: new Date(),
       },
     });
@@ -67,9 +57,7 @@ export async function getLatestProducts() {
         id: 'desc',
       }
     });
-    return {
-      products
-    };
+    return products
   } catch (error) {
     console.error("error loading products:", error);
     throw error;

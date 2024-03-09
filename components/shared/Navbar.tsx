@@ -22,7 +22,7 @@ const Navbar = ({ cart }: any) => {
             <Image height={130} width={130} alt="logo" src="/logo.svg" />
           </Link>
         </div>
-        <NavbarLinks/>
+        <NavbarLinks />
         <SignedIn>
           <div className="flex items-center gap-4">
             {cart && <Basket {...cart} />}
@@ -34,10 +34,20 @@ const Navbar = ({ cart }: any) => {
         <SignedOut>
           <div className="hidden md:flex gap-4 text-black">
             <Link href="/sign-in">
-              <Button variant="outline">Log in</Button>
+              <Button
+                className="border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white "
+                variant="outline"
+              >
+                Log in
+              </Button>
             </Link>
             <Link href="/sign-up">
-              <Button variant="outline">Sign up</Button>
+              <Button
+                className="bg-violet-600 text-white hover:bg-white hover:text-violet-600 hover:border-violet-600"
+                variant="outline"
+              >
+                Sign up
+              </Button>
             </Link>
           </div>
         </SignedOut>

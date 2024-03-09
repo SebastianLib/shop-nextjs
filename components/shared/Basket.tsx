@@ -9,8 +9,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { CartParams } from "@/lib/utils";
 import { formatPrice } from "@/lib/formatPrice";
+import { CartParams } from "@/lib/utils";
 
 const Basket = (cart: CartParams) => {
   return (

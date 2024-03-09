@@ -72,9 +72,9 @@
 .swiper-button-next,
 .swiper-button-prev {
   color: white !important;
-  font-size: 12px ;
+  font-size: 120px;
   background-color: rgb(139 92 246);
-  padding: 30px;
+  padding: 35px;
   border-radius: 100%;
 }
 
@@ -82,14 +82,14 @@
 .swiper-button-prev:hover {
   color: white;
   background-color: rgb(124 58 237);
-  padding: 30px;
+  padding: 35px;
   border-radius: 100%;
   transition: background 0.5s;
 }
 
 .swiper-button-next:after,
 .swiper-button-prev:after {
-  font-size: 30px;
+  font-size: 10px;
 }
 
 .swiper-button-next.swiper-button-disabled,

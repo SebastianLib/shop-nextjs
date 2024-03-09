@@ -3,32 +3,16 @@ import Pagination from "@/components/shared/Pagination";
 import SingleItem from "@/components/shared/SingleItem";
 import { getAllProducts } from "@/lib/db/product";
 import { Product } from "@prisma/client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const AllProducts = () => {
-  const [products, setProducts] = useState<Product[]>();
-  const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
-  const [skip, setSkip] = useState<number>(4);
+interface AllProductsProps{
+  products:Product[],
+  totalProductsPages:number
+}
 
-  const searchParams = useSearchParams();
+const AllProducts = ({products, totalProductsPages}:AllProductsProps) => {
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const page = searchParams.get("page");
-
-        const actualPage = page ? parseInt(page) - 1 : 0;
-        const productsData = await getAllProducts(actualPage, skip);
-        setTotalProductsPages(Math.ceil(productsData?.totalProducts / skip));
-        setProducts(productsData?.products);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-
-    fetchProducts();
-  }, [searchParams]);
   return (
     <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
       <h2 className="text-2xl">All Products</h2>

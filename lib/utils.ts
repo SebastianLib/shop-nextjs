@@ -1,3 +1,4 @@
+import { Product, ShoppingCartItem } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -19,10 +20,10 @@ export const gender = [
   { name: "Both",},
 ];
 
-export interface CategoryProps {
-  id: string;
-  name: string;
-}
+// export interface CategoryProps {
+//   id: string;
+//   name: string;
+// }
 
 export interface CartParams{
   id:string
@@ -39,19 +40,6 @@ export interface CartItem{
   productId:string
   product: Product
   quantity:number
-  createdAt:Date | null
-  updatedAt:Date | null,
-}
-
-export interface Product{
-  id: string,
-  userId: string,
-  name: string,
-  categoryName: string,
-  image: string,
-  description: string,
-  price: number,
-  gender: string,
   createdAt:Date | null
   updatedAt:Date | null,
 }

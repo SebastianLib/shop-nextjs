@@ -18,10 +18,10 @@ const MobileNavbar = () => {
         <Menu className="w-10 h-10" />
       </SheetTrigger>
       <SheetContent>
-        <ul className="flex flex-col gap-y-8 cursor-pointer m-4">
+        <ul className="flex flex-col gap-y-8 cursor-pointer m-2">
           {links.map((item) => (
             <SheetClose asChild key={item.href}>
-              <li className="text-3xl">
+              <li className="text-2xl">
                 <Link href={item.href}>
                   {item.label}
                 </Link>
@@ -29,17 +29,17 @@ const MobileNavbar = () => {
             </SheetClose>
           ))}
         </ul>
-        <div className="flex mx-4 my-8 gap-4">
+        <div className="flex mx-2 my-8 gap-4">
           <SignedIn>
             <UserButton />
           </SignedIn>
           <SignedOut>
-            <div className="text-black">
+            <div className="flex gap-4">
               <Link href="/sign-in">
-                <Button>Log in</Button>
+                <Button className="bg-violet-600 text-white hover:bg-violet-500">Log in</Button>
               </Link>
               <Link href="/sign-up">
-                <Button>Sign up</Button>
+                <Button className="bg-violet-600 text-white hover:bg-violet-500">Sign up</Button>
               </Link>
             </div>
           </SignedOut>

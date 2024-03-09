@@ -11,22 +11,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-const LatestProducts = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const productsData = await getLatestProducts();
-
-        setProducts(productsData?.products);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+const LatestProducts = ({ products }: { products: Product[] }) => {
 
   return (
     <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
@@ -48,7 +33,7 @@ const LatestProducts = () => {
           spaceBetween: 20,
         },
         1000: {
-          slidesPerView: 3,
+          slidesPerView: 2,
           spaceBetween: 30,
         },
         1500: {
@@ -71,7 +56,7 @@ const LatestProducts = () => {
               />
               <div>
                 <h2 className="text-2xl line-clamp-1">{product.name}</h2>
-                <p className="text-gray-600">{product.description.substring(0, 60)}...</p>
+                <p className="text-gray-600">{product.description.substring(0, 40)}...</p>
                 <p className="mt-2 text-lg">
                   {product.price.toLocaleString("en-US", {
                     style: "currency",

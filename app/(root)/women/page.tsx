@@ -54,7 +54,6 @@ const WomenPage = () => {
 
   return (
     <section className="md:mt-40 mt-28 container">
-      {/* <h1 className="text-5xl font-semibold text-center">All Products</h1> */}
       <ProductsFilters />
       {products!.length == 0 && (
         <h2 className="text-center text-2xl mt-10">No products found</h2>

@@ -3,11 +3,6 @@ import { links } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface NavbarLinksProps {
-    label: string;
-    href: string;
-}
-
 const NavbarLinks = () => {
   const pathname = usePathname();
   return (
