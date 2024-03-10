@@ -67,19 +67,6 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
             priority={true}
             className="object-cover w-auto min-w-[250px] lg:min-w-[500px] max-h-[400px] md:max-h-[600px] "
           />  
-          {/* <Dialog>
-          <DialogContent className="sm:max-w-[425px] p-2">
-          <Image
-            src={product.image}
-            width={700}
-            height={500}
-            alt={product.name}
-            priority={true}
-            className="object-cover w-auto b"
-          /> 
-          
-          </DialogContent>
-        </Dialog> */}
         </div>
         <div className="flex flex-col self-start md:self-center w-full gap-4 ">
           <div className="flex flex-col gap-4">
@@ -87,7 +74,7 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
             <p className="text-xl lg:text-2xl font-semibold">size: {product?.size?.size}</p>
             <p className="text-xl lg:text-2xl text-gray-700">{product.description}</p>
           </div>
-          <p className="text-xl">
+          <p className="text-xl font-semibold">
             {formatPrice(product.price)}
           </p>
             <Button onClick={()=>handleProduct(product.id)} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>

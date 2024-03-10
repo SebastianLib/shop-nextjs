@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { changeQuantityCartItem, removeCartItem } from "@/lib/db/cart";
@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 interface CartItemsProps {
-  cart: CartParams | null
+  cart: CartParams | null;
 }
 
-const CartItems = ({cart}:CartItemsProps) => {
+const CartItems = ({ cart }: CartItemsProps) => {
   const router = useRouter();
   const handleRemove = async (itemId: string) => {
     try {
@@ -51,7 +51,7 @@ const CartItems = ({cart}:CartItemsProps) => {
                 priority={true}
                 className="rounded-lg overflow-hidden object-cover max-h-[150px] max-w-[150px]"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-1">
                 <p className="text-xl font-semibold">{item.product.name}</p>
                 <p className="flex items-center gap-2">
                   Quantity:
@@ -64,8 +64,16 @@ const CartItems = ({cart}:CartItemsProps) => {
                     defaultValue={item.quantity}
                   />
                 </p>
-                <p>Price:{formatPrice(item.product.price)}</p>
-                <p>Total Price: {formatPrice(total)}</p>
+                <p>
+                  Price:{" "}
+                  <span className="font-semibold">
+                    {formatPrice(item.product.price)}
+                  </span>
+                </p>
+                <p>
+                  Total Price:{" "}
+                  {<span className="font-semibold">{formatPrice(total)}</span>}
+                </p>
               </div>
             </div>
 

@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Product, ShoppingCartItem, Size } from "@prisma/client";
 import Image from "next/image";
 import { format } from "date-fns";
@@ -21,14 +22,15 @@ interface PurchasedItemsListComponentProps {
 const PurchasedItemsListComponent = ({
   allItems,
 }: PurchasedItemsListComponentProps) => {
+  const [numberItems, setNumberItems] = useState<number>(4);
   return (
     <div className="md:mt-40 mt-28 container overflow-x-hidden">
-      <h1 className="text-center text-5xl font-semibold">Purchased Items</h1>
+      <h1 className="text-center text-4xl font-semibold">Purchased Items</h1>
       <div className="flex flex-col gap-8 border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {allItems.length === 0 && (
           <h2 className="text-2xl text-center">Not items found</h2>
         )}
-        {allItems.map((item) => (
+        {allItems.slice(0, numberItems).map((item) => (
           <div
             key={item.id}
             className="flex xs:flex-col md:flex-row md:justify-between md:items-center gap-2"
@@ -77,6 +79,14 @@ const PurchasedItemsListComponent = ({
             </Link>
           </div>
         ))}
+        {allItems.length > numberItems && (
+          <Button
+            variant="main"
+            onClick={() => setNumberItems((prev) => prev + 4)}
+          >
+            load more
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -46,7 +46,7 @@ const HomePage = () => {
   
   return (
     <section className="flex flex-col items-center md:mt-40 mt-28 container">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-center">
+          <h1 className="text-3xl lg:text-4xl font-semibold text-center">
         What are you looking for?
       </h1>
       <Choice />
