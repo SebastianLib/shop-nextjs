@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 const NavbarLinks = () => {
   const pathname = usePathname();
   return (
-    <ul className="hidden md:flex md:gap-4 lg:gap-12 shrink-0">
+    <ul className="hidden lg:flex md:gap-4 lg:gap-12 shrink-0">
       {links.map((link) => {
         return (
           <li
