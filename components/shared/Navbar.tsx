@@ -24,9 +24,11 @@ const Navbar = ({ cart }: any) => {
         </div>
         <NavbarLinks />
         <SignedIn>
-          <div className="hidden lg:flex items-center gap-4">
-            {cart && <Basket {...cart} />}
-              <UserButton />
+          <div className="flex items-center gap-4">
+          {cart && <Basket {...cart} />}
+          <div className="hidden lg:flex">
+          <UserButton />
+          </div>
           </div>
         </SignedIn>
         <SignedOut>
