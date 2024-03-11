@@ -15,7 +15,7 @@ const MenPage = () => {
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
   let skip = 4;
   const searchParams = useSearchParams();
-
+  
   useEffect(() => {
     const fetchMenProducts = async () => {
       try {
@@ -49,7 +49,10 @@ const MenPage = () => {
   }, [searchParams]);
 
   if (loading) {
-    return <Loading />;
+    return <section className="md:mt-40 mt-28 container">
+    <ProductsFilters />
+    <Loading/>
+  </section>
   }
 
   return (

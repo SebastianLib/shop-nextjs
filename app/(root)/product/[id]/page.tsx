@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/formatPrice";
 import { useAuth } from "@clerk/nextjs";
 import { Product, Size } from "@prisma/client";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect, useRouter} from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -69,15 +70,20 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
           />  
         </div>
         <div className="flex flex-col self-start md:self-center w-full gap-4 ">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2 md:gap-4">
             <h1 className="text-3xl lg:text-5xl font-semibold">{product.name}</h1>
-            <p className="text-xl lg:text-2xl font-semibold">size: {product?.size?.size}</p>
-            <p className="text-xl lg:text-2xl text-gray-700">{product.description}</p>
+            <p className="text-lg md:text-xl lg:text-2xl font-semibold">size: {product?.size?.size}</p>
+            <p className="text-lg md:text-xl lg:text-2xl text-gray-700">{product.description}</p>
           </div>
           <p className="text-xl font-semibold">
             {formatPrice(product.price)}
           </p>
-            <Button onClick={()=>handleProduct(product.id)} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
+          <div className="flex xs:flex-col sm:flex-row gap-4">
+          <Button disabled={!userId} onClick={()=>handleProduct(product.id)} variant="main" className="text-2xl max-w-fit p-8">Add to cart</Button>
+            <Link className={`${userId ? "hidden": "flex"}`} href="/sign-in">
+              <Button variant="main"  className="text-2xl max-w-fit p-8">Login</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>

@@ -7,18 +7,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCategories } from "@/lib/db/category";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams} from "next/navigation";
 import { getSizes } from "@/lib/db/size";
 import { Category, Size } from "@prisma/client";
 
 const ProductsFilters = () => {
   const [categories, setCategories] = useState<Category[]>();
   const [sizes, setSizes] = useState<Size[]>();
-  const [loading, setLoading] = useState<boolean>();
 
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const params = new URLSearchParams(searchParams);
@@ -40,7 +39,7 @@ const ProductsFilters = () => {
     }
 
     searchTimeout = setTimeout(() => {
-      replace(`${pathname}?${params.toString()}`);
+      push(`${pathname}?${params.toString()}`);
     }, 200);
   };
 
@@ -54,13 +53,12 @@ const ProductsFilters = () => {
     } catch (error: any) {
       throw new Error(error);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     fetchCategoriesAndSizes();
   }, []);
-
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-100 px-4 py-8 rounded-xl shadow-xl gap-4">
       <Input
@@ -75,12 +73,15 @@ const ProductsFilters = () => {
           onValueChange={(value) => handleSearchParams("category", value)}
         >
           <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Category" />
+            <SelectValue placeholder="Category"/>
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All</SelectItem>
             {categories?.map((item) => (
-              <SelectItem key={item.id} value={item.name}>
+              <SelectItem 
+              key={item.id} 
+              value={item.name}
+              >
                 {item.name}
               </SelectItem>
             ))}

@@ -49,7 +49,10 @@ const WomenPage = () => {
   }, [searchParams]);
 
   if (loading) {
-    return <Loading />;
+    return <section className="md:mt-40 mt-28 container">
+    <ProductsFilters />
+    <Loading/>
+  </section>
   }
 
   return (
