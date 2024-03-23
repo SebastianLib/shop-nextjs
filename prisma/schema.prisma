@@ -14,23 +14,25 @@ model Product {
   id               String             @id @default(auto()) @map("_id") @db.ObjectId
   userId           String
   name             String
-  categoryName     String
+  categoryId       String?            @db.ObjectId
+  category         Category?          @relation(fields: [categoryId], references: [id])
   image            String
   description      String
   price            Float
   gender           String
-  sizeId           String?             @db.ObjectId
-  size             Size?               @relation(fields: [sizeId], references: [id])
+  sizeId           String?            @db.ObjectId
+  size             Size?              @relation(fields: [sizeId], references: [id])
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   ShoppingCartItem ShoppingCartItem[]
 }
 
 model Category {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
 }
 
 model Size {

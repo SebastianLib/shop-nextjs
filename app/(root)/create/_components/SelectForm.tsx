@@ -20,15 +20,15 @@ import CreateAlert from "./CreateAlert";
 
 interface SelectFormProps {
   form: UseFormReturn<z.infer<typeof formSchema>>;
-  values: Category[] | Size[] | { name: string }[];
-  type: "categoryName" | "size" | "gender";
+  values: Category[] | Size[];
+  type: "category" | "size" ;
 }
 
 const SelectForm = ({ form, values, type }: SelectFormProps) => {
   return (
     <FormField
       control={form.control}
-      name={type === "size" ? "sizeId": type}
+      name={type === "size" ? "sizeId":"categoryId"}
       render={({ field }) => (
         <FormItem>
           <Select onValueChange={field.onChange}>
@@ -36,12 +36,12 @@ const SelectForm = ({ form, values, type }: SelectFormProps) => {
               <SelectTrigger>
                 <SelectValue
                   placeholder={`Select ${
-                    type === "categoryName" ? "category" : type
+                    type === "category" ? "category" : type
                   }`}
                 />
               </SelectTrigger>
             </FormControl>
-            {type === "gender" || type === "categoryName" ? (
+            {type === "category" ? (
               <SelectContent>
                 {values?.map(
                   (value) =>
@@ -49,13 +49,13 @@ const SelectForm = ({ form, values, type }: SelectFormProps) => {
                       <SelectItem
                         key={value.name}
                         className="py-4"
-                        value={value.name}
+                        value={value.id}
                       >
                         {value.name}
                       </SelectItem>
                     )
                 )}
-                {type === "categoryName" && (
+                {type === "category" && (
                   <div className="ml-6 my-2">
                     <CreateAlert type={type} />
                   </div>

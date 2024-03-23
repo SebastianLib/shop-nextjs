@@ -28,3 +28,18 @@ export async function getCategories() {
     throw error;
   }
 }
+
+export async function getCategoryId(category:string) {
+  try {
+    const selectedcatergory = await prisma.category.findUnique({
+      where:{
+        name: category
+      },
+    });
+
+    return selectedcatergory?.id
+  } catch (error) {
+    console.error("error loading catergory:", error);
+    throw error;
+  }
+}

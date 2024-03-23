@@ -1,4 +1,5 @@
 "use server"
+import { getCategoryId } from "./category";
 import { prisma } from "./prisma";
 import { getSizeId } from "./size";
 
@@ -6,7 +7,7 @@ export interface ProductParams {
   id?: string;
   userId: string;
   name: string;
-  categoryName: string;
+  categoryId: string;
   image: string;
   description: string;
   price: number;
@@ -82,6 +83,10 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
     if(size){
       sizeId = await getSizeId(size)
     }
+  let categoryId
+    if(category){
+      categoryId = await getCategoryId(category)
+    }
   
   interface OrderBy {
     [key: string]: string;
@@ -100,14 +105,14 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
 
   const whereCondition: {
     gender: string;
-    categoryName?: string;
+    categoryId?: string;
     name?: { contains: string; mode: any };
     sizeId?: string
   } = {
     gender: gender,
   };
-  if (category) {
-    whereCondition.categoryName = category;
+  if (categoryId) {
+    whereCondition.categoryId = categoryId;
   }
   if (search) {
     whereCondition.name = { contains: search, mode: "insensitive" };

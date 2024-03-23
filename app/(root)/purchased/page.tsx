@@ -1,12 +1,13 @@
 import { getPurchasedItems } from "@/lib/db/purchased-items";
 import { auth } from "@clerk/nextjs";
-import { Product, ShoppingCartItem, Size } from "@prisma/client";
+import { Category, Product, ShoppingCartItem, Size } from "@prisma/client";
 import { redirect } from "next/navigation";
 import PurchasedItemsList from "./_components/PurchasedItemsList";
 
 interface PurchasedProduct extends ShoppingCartItem {
   product: Product &{
-    size: Size
+    size: Size,
+    category: Category
   };
 }
 

@@ -1,10 +1,10 @@
 "use server"
-
 import { revalidatePath} from "next/cache";
 import { prisma } from "./prisma";
+import { CartParams } from "../utils";
 
 export const handleCart = async (userId: string, productId: string) => {
-
+    
 try {
     const cart = await prisma.shoppingCart.findFirst({
         where: {
@@ -12,6 +12,7 @@ try {
             sold: false
         }
     });
+    
     if(!cart) throw new Error("unauthorized")
     const cartItem = await prisma.shoppingCartItem.findFirst({
         where: {
@@ -31,7 +32,6 @@ try {
                 }
             }
         })
-
     } else {
          await prisma.shoppingCartItem.create({
             data: {
@@ -42,9 +42,24 @@ try {
         })
     }
 } catch (error) {
-    
+    console.log(error)
+} 
 }
-    
+
+export const getAnonymousCart = () => {
+    const cart = localStorage.getItem('cart');
+    if(cart){
+        return cart
+    }else{
+        const anonymousCart = {
+            id: "232423",
+            userId: "FDSFsdfsdf",
+            sold: false,
+            items: [],
+        }
+        localStorage.setItem('cart', JSON.stringify(anonymousCart));
+        return anonymousCart
+    }
 }
 
 export const getCart = async (userId: string) => {
@@ -63,16 +78,8 @@ export const getCart = async (userId: string) => {
             },
         });
         if(cart){
-            const quantity = cart?.items.reduce(
-                (accumulator, currentValue) => accumulator + currentValue.quantity, 0
-            );
-    
-            const totalPrice = cart?.items.reduce(
-                (accumulator, currentValue) =>
-                    accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
-                0
-            );
-    
+           const {quantity, totalPrice} = changeQuantityAndPrice(cart)
+
             const cartWithQuantity = cart
                 ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
                 : undefined;
@@ -99,16 +106,7 @@ export const getCart = async (userId: string) => {
                 },
             });
 
-            const quantity = cart?.items.reduce(
-                (accumulator, currentValue) => accumulator + currentValue.quantity, 0
-            );
-    
-            const totalPrice = cart?.items.reduce(
-                (accumulator, currentValue) =>
-                    accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
-                0
-            );
-    
+            const {quantity, totalPrice} = changeQuantityAndPrice(cart!)
             const cartWithQuantity = cart
                 ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
                 : undefined;
@@ -119,6 +117,18 @@ export const getCart = async (userId: string) => {
     } catch (error) {
         console.error("error loading products:", error);
     }
+}
+
+const changeQuantityAndPrice = (cart:CartParams ) => {
+    const quantity = cart?.items.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.quantity, 0
+    );
+    const totalPrice = cart?.items.reduce(
+        (accumulator, currentValue) =>
+            accumulator + (currentValue.product?.price || 0) * currentValue.quantity,
+        0
+    );
+    return {quantity, totalPrice}
 }
 
 export const removeCartItem = async (itemId: string) => {

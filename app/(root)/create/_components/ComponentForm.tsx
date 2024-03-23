@@ -18,6 +18,7 @@ import DescriptionForm from "./DescriptionForm";
 import NameForm from "./NameForm";
 import SelectForm from "./SelectForm";
 import PriceForm from "./PriceForm";
+import SelectGenderForm from "./SelectGenderForm";
 
 interface FormComponentProps{
     categories: Category[],
@@ -26,7 +27,7 @@ interface FormComponentProps{
 
 export const formSchema = z.object({
   name: z.string().min(2).max(50),
-  categoryName: z.string().min(2).max(50),
+  categoryId: z.string().min(2).max(50),
   sizeId: z.string(),
   description: z.string().min(2).max(500),
   price: z.number(),
@@ -42,7 +43,7 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      categoryName: "",
+      categoryId: "",
       description: "",
       sizeId: "",
     },
@@ -77,13 +78,13 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
           <div className="flex flex-col gap-4">
           <NameForm form={form}/>
           <DescriptionForm form={form}/>
-          <SelectForm form={form} values={gender} type="gender"/>
+          <SelectGenderForm form={form} values={gender}/>
           <PriceForm form={form}/>
           </div>
 
           <div className="flex flex-col gap-4">
           <SelectForm form={form} values={sizes} type="size"/>
-          <SelectForm form={form} values={categories} type="categoryName"/>
+          <SelectForm form={form} values={categories} type="category"/>
           <UploadImage image={image} setImage={setImage}/>
           </div>
 

@@ -15,7 +15,8 @@ export const getPurchasedItems = async (userId: string) => {
                     include: {
                         product: {
                             include:{
-                                size:true
+                                size:true,
+                                category: true
                             }
                         }
                     }

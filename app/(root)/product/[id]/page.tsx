@@ -1,5 +1,4 @@
 "use client";
-import Loading from "@/components/shared/Loading";
 import { Button } from "@/components/ui/button";
 import { handleCart } from "@/lib/db/cart";
 import {  getProductById } from "@/lib/db/product";
@@ -11,6 +10,7 @@ import Link from "next/link";
 import { redirect, useRouter} from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Loading from "./loading";
 
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
@@ -48,9 +48,8 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
     fetchProducts();
   }, []);
 
-
   if (loading) {
-    return <Loading />;
+    return <Loading/>;
   }
 
   if (!product) {

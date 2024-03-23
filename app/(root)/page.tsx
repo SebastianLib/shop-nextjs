@@ -3,7 +3,7 @@ import { getAllProducts, getLatestProducts } from "@/lib/db/product";
 import { Product } from "@prisma/client";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import Loading from "@/components/shared/Loading";
+import Loading from "@/components/shared/LoadingComponent";
 import Choice from "./_components/Choice";
 import LatestProducts from "./_components/LatestProducts";
 import AllProducts from "./_components/AllProducts";

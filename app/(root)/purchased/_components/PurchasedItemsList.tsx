@@ -12,7 +12,12 @@ interface PurchasedProduct extends ShoppingCartItem {
       id: string;
       size: string;
     };
-  };
+  }&{
+    category:{
+      id: string;
+      name: string;
+    }
+  }
 }
 
 interface PurchasedItemsListComponentProps {
@@ -70,7 +75,7 @@ const PurchasedItemsListComponent = ({
             </div>
             <Link
               href={`/${item.product.gender.toLowerCase()}?category=${
-                item.product.categoryName
+                item.product.category.name
               }`}
             >
               <Button variant="main" className="h-12 xs:w-full md:w-fit">

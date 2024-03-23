@@ -5,7 +5,7 @@ import { Product } from "@prisma/client";
 import {useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ProductsFilters from "@/components/shared/ProductsFilters";
-import Loading from "@/components/shared/Loading";
+import Loading from "@/components/shared/LoadingComponent";
 import Pagination from "@/components/shared/Pagination";
 
 const WomenPage = () => {

@@ -1,15 +1,19 @@
-import { CartParams, links } from "@/lib/utils";
+import { CartParams } from "@/lib/utils";
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
-import { SignedIn, SignedOut, UserButton, auth, useAuth } from "@clerk/nextjs";
+import { SignedIn, SignedOut, UserButton, auth,} from "@clerk/nextjs";
 import { Button } from "../ui/button";
 import Basket from "./Basket";
 import Image from "next/image";
 import NavbarLinks from "./NavbarLinks";
+import { getCart } from "@/lib/db/cart";
+import { setCookie, getCookie } from 'cookies-next';
 
-const Navbar = ({ cart }: any) => {
+const Navbar = async() => {
   const { userId } = auth();
-
+  
+  const cart = await getCart(userId!);
+  
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">
@@ -25,14 +29,15 @@ const Navbar = ({ cart }: any) => {
         <NavbarLinks />
         <SignedIn>
           <div className="flex items-center gap-4">
-          {cart && <Basket {...cart} />}
-          <div className="hidden lg:flex">
-          <UserButton />
-          </div>
+            {cart && <Basket {...cart} />}
+            <div className="hidden lg:flex">
+              <UserButton />
+            </div>
           </div>
         </SignedIn>
         <SignedOut>
           <div className="hidden lg:flex gap-4 text-black">
+          {cart && <Basket {...cart} />}
             <Link href="/sign-in">
               <Button
                 className="border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white "

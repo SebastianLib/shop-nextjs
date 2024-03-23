@@ -31,8 +31,8 @@ export interface CartParams{
   createdAt:Date | null
   updatedAt:Date | null
   items:Array<CartItem>
-  quantity:number
-  totalPrice:number
+  quantity?:number
+  totalPrice?:number
 }
 
 export interface CartItem{
