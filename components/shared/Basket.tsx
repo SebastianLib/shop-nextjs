@@ -17,7 +17,7 @@ const Basket = (cart: CartParams) => {
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="relative">
         <ShoppingBasket className="w-8 h-8 hover:text-violet-600 transition" />
-        {cart.quantity > 0 && (
+        {cart.quantity! > 0 && (
           <div className="absolute border border-black rounded-full -top-3 -right-3 w-5 h-5 flex items-center justify-center">
             <p className="text-sm">{cart?.quantity}</p>
           </div>
@@ -26,7 +26,7 @@ const Basket = (cart: CartParams) => {
       <DropdownMenuContent className="p-4 flex flex-col">
         <DropdownMenuLabel className="text-md">
           <h2>Items: {cart?.quantity}</h2>
-          <p>Subtotal {formatPrice(cart?.totalPrice)}</p>
+          <p>Subtotal {formatPrice(cart?.totalPrice!)}</p>
         </DropdownMenuLabel>
         <DropdownMenuItem className="focus:bg-transparent">
           <Link href="/cart">
