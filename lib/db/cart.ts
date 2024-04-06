@@ -2,6 +2,7 @@
 import { revalidatePath} from "next/cache";
 import { prisma } from "./prisma";
 import { CartParams } from "../utils";
+import { cookies } from "next/dist/client/components/headers";
 
 export const handleCart = async (userId: string, productId: string) => {
     

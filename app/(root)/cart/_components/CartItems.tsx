@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/formatPrice";
 import { CartParams } from "@/lib/utils";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 
 interface CartItemsProps {
@@ -24,7 +25,7 @@ const CartItems = ({ cart }: CartItemsProps) => {
     }
   };
 
-  const handleQuantity = async (quantity: number, id: string) => {
+   const handleQuantity = async (quantity: number, id: string) => {
     try {
       await changeQuantityCartItem(id, quantity);
       router.refresh();
@@ -32,6 +33,7 @@ const CartItems = ({ cart }: CartItemsProps) => {
       throw new Error(error);
     }
   };
+
 
   return (
     <div className="space-y-4">

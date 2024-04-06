@@ -8,14 +8,12 @@ import Choice from "./_components/Choice";
 import LatestProducts from "./_components/LatestProducts";
 import AllProducts from "./_components/AllProducts";
 
-
 const HomePage = () => {
   const [allProducts, setAllProducts] = useState<Product[]>();
   const [latestProducts, setLatestProducts] = useState<Product[]>([]);
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [skip, setSkip] = useState<number>(4);
-
   const searchParams = useSearchParams();
 
   useEffect(() => {

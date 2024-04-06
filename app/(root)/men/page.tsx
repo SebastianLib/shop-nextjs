@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import ProductsFilters from "@/components/shared/ProductsFilters";
 import Loading from "@/components/shared/LoadingComponent";
 import Pagination from "@/components/shared/Pagination";
+import { getFilterParams } from "@/app/hooks/getFilterParams";
 
 const MenPage = () => {
   const [products, setProducts] = useState<Product[]>();
@@ -20,11 +21,7 @@ const MenPage = () => {
     const fetchMenProducts = async () => {
       try {
         setLoading(true);
-        const search = searchParams.get("search");
-        const category = searchParams.get("category");
-        const size = searchParams.get("size");
-        const sort = searchParams.get("sort");
-        const params = { search, category, sort, size };
+       const params = getFilterParams({searchParams})
 
         const page = searchParams.get("page");
         const actualPage = page ? parseInt(page) - 1 : 0;

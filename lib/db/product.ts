@@ -1,4 +1,5 @@
 "use server"
+import { useParams } from "next/navigation";
 import { getCategoryId } from "./category";
 import { prisma } from "./prisma";
 import { getSizeId } from "./size";
@@ -79,6 +80,7 @@ interface GetProductsParams {
 
 export async function getProducts({gender, params, actualPage, skip}:GetProductsParams) {
   const { search, category, sort, size } = params
+  
   let sizeId
     if(size){
       sizeId = await getSizeId(size)

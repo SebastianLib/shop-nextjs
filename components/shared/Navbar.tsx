@@ -1,4 +1,3 @@
-import { CartParams } from "@/lib/utils";
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton, auth,} from "@clerk/nextjs";
@@ -7,13 +6,13 @@ import Basket from "./Basket";
 import Image from "next/image";
 import NavbarLinks from "./NavbarLinks";
 import { getCart } from "@/lib/db/cart";
-import { setCookie, getCookie } from 'cookies-next';
 
 const Navbar = async() => {
-  const { userId } = auth();
+  const { userId } = auth();   
   
   const cart = await getCart(userId!);
-  
+
+
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">
