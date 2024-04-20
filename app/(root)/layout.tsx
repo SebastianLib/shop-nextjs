@@ -1,9 +1,10 @@
-import Navbar from "@/components/shared/Navbar"
+import Navbar from "@/app/(root)/_components/Navbar"
 import "@uploadthing/react/styles.css";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer} from 'react-toastify'
-import { auth } from "@clerk/nextjs";
-import { getCart } from "@/lib/db/cart";
+import Footer from "./_components/Footer";
+
+
 export default async function RootLayout({
   children,
 }: {
@@ -14,7 +15,8 @@ export default async function RootLayout({
     <div className="flex h-screen flex-col">
       <ToastContainer position="top-left"/>
       <Navbar/>
-      <main className="flex-1">{children}</main>
+      <main className="">{children}</main>
+      <Footer/>
     </div>
   )
 }

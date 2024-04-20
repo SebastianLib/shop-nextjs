@@ -24,17 +24,17 @@ const ProductsFilters = () => {
 
   let searchTimeout:ReturnType<typeof setTimeout>
 
-  const handleSearchParams= (name:string, term:string) => {
+  const handleSearchParams= (name:string, value:string) => {
 
     clearTimeout(searchTimeout);
   
-    if (term) {
-      params.set(name, term);
+    if (value) {
+      params.set(name, value);
     } else {
       params.delete(name);
     }
   
-    if (term === "all") {
+    if (value === "all") {
       params.delete(name);
     }
 

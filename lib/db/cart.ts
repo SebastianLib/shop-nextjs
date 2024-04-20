@@ -1,18 +1,52 @@
 "use server"
-import { revalidatePath} from "next/cache";
 import { prisma } from "./prisma";
-import { CartParams } from "../utils";
-import { cookies } from "next/dist/client/components/headers";
+import { CartWithProducts } from "../utils";
+
+
+export const getCart = async (userId: string | null) => {
+    if(!userId) return null
+    let cart: CartWithProducts | null
+
+    try {
+         cart = await prisma.shoppingCart.findFirst({
+            where: {
+                userId,
+                sold: false
+            },
+            include: {
+                items: {
+                    include: {
+                        product: true,
+                    },
+                },
+            },
+        });
+        if(!cart){
+             cart = await prisma.shoppingCart.create({
+                data: {
+                    userId: userId,
+                },
+                include: {
+                    items: {
+                        include: {
+                            product: true,
+                        },
+                    },
+                },
+            })
+        }
+        const {quantity, totalPrice} = changeQuantityAndPrice(cart)
+        return{ ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
+        
+    } catch (error) {
+        console.error("error loading products:", error);
+    }
+}
 
 export const handleCart = async (userId: string, productId: string) => {
     
 try {
-    const cart = await prisma.shoppingCart.findFirst({
-        where: {
-            userId: userId,
-            sold: false
-        }
-    });
+    const cart = await getCart(userId)
     
     if(!cart) throw new Error("unauthorized")
     const cartItem = await prisma.shoppingCartItem.findFirst({
@@ -47,80 +81,7 @@ try {
 } 
 }
 
-export const getAnonymousCart = () => {
-    const cart = localStorage.getItem('cart');
-    if(cart){
-        return cart
-    }else{
-        const anonymousCart = {
-            id: "232423",
-            userId: "FDSFsdfsdf",
-            sold: false,
-            items: [],
-        }
-        localStorage.setItem('cart', JSON.stringify(anonymousCart));
-        return anonymousCart
-    }
-}
-
-export const getCart = async (userId: string) => {
-    try {
-        const cart = await prisma.shoppingCart.findFirst({
-            where: {
-                userId,
-                sold: false
-            },
-            include: {
-                items: {
-                    include: {
-                        product: true,
-                    },
-                },
-            },
-        });
-        if(cart){
-           const {quantity, totalPrice} = changeQuantityAndPrice(cart)
-
-            const cartWithQuantity = cart
-                ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
-                : undefined;
-    
-            return cartWithQuantity;
-        }
-        else{
-            await prisma.shoppingCart.create({
-                data: {
-                    userId: userId,
-                }
-            })
-            const cart = await prisma.shoppingCart.findFirst({
-                where: {
-                    userId,
-                    sold: false
-                },
-                include: {
-                    items: {
-                        include: {
-                            product: true,
-                        },
-                    },
-                },
-            });
-
-            const {quantity, totalPrice} = changeQuantityAndPrice(cart!)
-            const cartWithQuantity = cart
-                ? { ...cart, quantity: quantity || 0, totalPrice: totalPrice || 0 }
-                : undefined;
-    
-            return cartWithQuantity;
-        }
-        
-    } catch (error) {
-        console.error("error loading products:", error);
-    }
-}
-
-const changeQuantityAndPrice = (cart:CartParams ) => {
+const changeQuantityAndPrice = (cart:CartWithProducts ) => {
     const quantity = cart?.items.reduce(
         (accumulator, currentValue) => accumulator + currentValue.quantity, 0
     );
@@ -132,16 +93,17 @@ const changeQuantityAndPrice = (cart:CartParams ) => {
     return {quantity, totalPrice}
 }
 
+
 export const removeCartItem = async (itemId: string) => {
     try {
         await prisma.shoppingCartItem.delete({
             where: { id: itemId }
         })
+        return
     } catch (error) {
         console.error("error while deleting item:", error);
     }
 
-    revalidatePath("/cart")
 }
 
 export const changeQuantityCartItem = async (id: string, quantity: number) => {
@@ -151,8 +113,8 @@ export const changeQuantityCartItem = async (id: string, quantity: number) => {
             where: { id },
             data: { quantity: quantity }
         })
+        return quantity
     } catch (error) {
         console.error("error while update item:", error);
     }
-    revalidatePath("/cart")
 }

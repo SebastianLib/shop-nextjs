@@ -1,4 +1,4 @@
-import { Product, ShoppingCartItem } from "@prisma/client";
+import { Product, ShoppingCart, ShoppingCartItem } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -20,26 +20,16 @@ export const gender = [
   { name: "Both",},
 ];
 
-// export interface CategoryProps {
-//   id: string;
-//   name: string;
-// }
-
-export interface CartParams{
-  id:string
-  userId:string
-  createdAt:Date | null
-  updatedAt:Date | null
-  items:Array<CartItem>
-  quantity?:number
-  totalPrice?:number
+export interface CartItemsProps {
+  cart: ShoppingCart &{
+    items: (ShoppingCartItem & {product: Product})[]
+    quantity?: number;
+    totalPrice?: number
+  };
 }
 
-export interface CartItem{
-  id:string
-  productId:string
-  product: Product
-  quantity:number
-  createdAt:Date | null
-  updatedAt:Date | null,
+export interface CartWithProducts extends ShoppingCart {
+  items: (ShoppingCartItem & {product: Product})[];
+  quantity?: number;
+  totalPrice?: number;
 }

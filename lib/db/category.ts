@@ -3,15 +3,12 @@ import { prisma } from "./prisma"
 
 export async function createCategory(newItem:string) {
   try {
-    const newUser = await prisma.category.create({
+    const newCategory = await prisma.category.create({
       data: {
         name: newItem,
-        createdAt: new Date(),
       },
     });
-    return {
-      newUser
-    };
+    return newCategory;
   } catch (error) {
     console.error("Error creating category:", error);
     throw error;

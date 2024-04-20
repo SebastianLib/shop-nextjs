@@ -1,18 +1,17 @@
 import MobileNavbar from "./MobileNavbar";
 import Link from "next/link";
 import { SignedIn, SignedOut, UserButton, auth,} from "@clerk/nextjs";
-import { Button } from "../ui/button";
-import Basket from "./Basket";
+import { Button } from "../../../components/ui/button";
+import Basket from "../../../components/shared/Basket";
 import Image from "next/image";
-import NavbarLinks from "./NavbarLinks";
+import NavbarLinks from "../../../components/shared/NavbarLinks";
 import { getCart } from "@/lib/db/cart";
 
 const Navbar = async() => {
   const { userId } = auth();   
+
+  const cart = await getCart(userId);
   
-  const cart = await getCart(userId!);
-
-
   return (
     <nav className="fixed bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">
@@ -28,7 +27,7 @@ const Navbar = async() => {
         <NavbarLinks />
         <SignedIn>
           <div className="flex items-center gap-4">
-            {cart && <Basket {...cart} />}
+            {cart && <Basket cart={cart} />}
             <div className="hidden lg:flex">
               <UserButton />
             </div>
@@ -36,10 +35,10 @@ const Navbar = async() => {
         </SignedIn>
         <SignedOut>
           <div className="hidden lg:flex gap-4 text-black">
-          {cart && <Basket {...cart} />}
+          {cart && <Basket cart={cart} />}
             <Link href="/sign-in">
               <Button
-                className="border-violet-600 text-violet-600 hover:bg-violet-600 hover:text-white "
+                className="border-violet-600 border-2 text-violet-600 hover:bg-violet-600 hover:text-white "
                 variant="outline"
               >
                 Log in

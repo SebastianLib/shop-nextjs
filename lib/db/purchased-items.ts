@@ -4,7 +4,7 @@ import { prisma } from "./prisma";
 export const getPurchasedItems = async (userId: string) => {
 
     try {
-        
+
         const purchasedItems = prisma.shoppingCart.findMany({
             where: {
                 userId,
@@ -14,8 +14,8 @@ export const getPurchasedItems = async (userId: string) => {
                 items: {
                     include: {
                         product: {
-                            include:{
-                                size:true,
+                            include: {
+                                size: true,
                                 category: true
                             }
                         }

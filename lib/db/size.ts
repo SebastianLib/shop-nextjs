@@ -28,15 +28,12 @@ export async function getSizeId(size:string) {
 
   export async function createSize(newItem:string) {
     try {
-      const newUser = await prisma.size.create({
+      const newSize = await prisma.size.create({
         data: {
           size: newItem,
-          createdAt: new Date(),
         },
       });
-      return {
-        newUser
-      };
+      return newSize
     } catch (error) {
       console.error("Error creating size:", error);
       throw error;

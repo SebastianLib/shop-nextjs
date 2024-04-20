@@ -10,14 +10,17 @@ import {
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { formatPrice } from "@/lib/formatPrice";
-import { CartParams } from "@/lib/utils";
+import { CartWithProducts } from "@/lib/utils";
+interface BasketProps{
+  cart: CartWithProducts
+}
 
-const Basket = (cart: CartParams) => {
+const Basket = ({cart}: BasketProps) => {
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="relative">
         <ShoppingBasket className="w-8 h-8 hover:text-violet-600 transition" />
-        {cart.quantity! > 0 && (
+        {cart?.quantity! > 0 && (
           <div className="absolute border border-black rounded-full -top-3 -right-3 w-5 h-5 flex items-center justify-center">
             <p className="text-sm">{cart?.quantity}</p>
           </div>

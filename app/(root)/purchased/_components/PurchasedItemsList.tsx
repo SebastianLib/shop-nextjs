@@ -29,7 +29,7 @@ const PurchasedItemsListComponent = ({
 }: PurchasedItemsListComponentProps) => {
   const [numberItems, setNumberItems] = useState<number>(4);
   return (
-    <div className="md:mt-40 mt-28 container overflow-x-hidden">
+    <div className="md:mt-40 mt-28 min-h-screen container overflow-x-hidden">
       <h1 className="text-center text-4xl font-semibold">Purchased Items</h1>
       <div className="flex flex-col gap-8 border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {allItems.length === 0 && (

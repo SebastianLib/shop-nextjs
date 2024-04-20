@@ -104,12 +104,3 @@
 .swiper-pagination-bullet {
   background-color: rgb(196 181 253);
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}

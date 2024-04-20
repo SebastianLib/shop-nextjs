@@ -15,13 +15,13 @@ model Product {
   userId           String
   name             String
   categoryId       String?            @db.ObjectId
-  category         Category?          @relation(fields: [categoryId], references: [id])
+  category         Category?          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   image            String
   description      String
   price            Float
   gender           String
   sizeId           String?            @db.ObjectId
-  size             Size?              @relation(fields: [sizeId], references: [id])
+  size             Size?              @relation(fields: [sizeId], references: [id], onDelete: Cascade)
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   ShoppingCartItem ShoppingCartItem[]

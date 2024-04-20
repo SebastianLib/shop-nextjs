@@ -5,14 +5,17 @@ import CartItems from "./_components/CartItems";
 import { redirect } from "next/navigation";
 import CartSummary from "./_components/CartSummary";
 import Link from "next/link";
+import CartInfo from "./_components/CartInfo";
 
 const CartPage = async () => {
   const { userId } = auth();
   if (!userId) redirect("/");
-  const cart = await getCart(userId!);
+  const cart = await getCart(userId);
+
+  if(!cart) redirect("/")
 
   return (
-    <section className="md:mt-40 mt-28 container overflow-x-hidden">
+    <section className="md:mt-40 mt-28 min-h-screen container overflow-x-hidden">
       <h1 className="text-center text-5xl font-semibold">Shopping Cart</h1>
       <div className="border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {cart!.items.length < 1 ? (
@@ -23,10 +26,7 @@ const CartPage = async () => {
             </Button>
           </div>
         ) : (
-          <div className="flex flex-col gap-4">
-            <CartItems cart={cart!} />
-            <CartSummary cart={cart!} />
-          </div>
+          <CartInfo cart={cart}/>
         )}
       </div>
     </section>

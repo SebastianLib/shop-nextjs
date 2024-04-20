@@ -1,16 +1,17 @@
 "use client"
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/formatPrice";
-import { CartParams } from "@/lib/utils";
+import { CartWithProducts} from "@/lib/utils";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-interface CartSummaryProps {
-  cart: CartParams | null
+interface CartSummaryProps{
+  cart: CartWithProducts,
+  isChanging: boolean,
 }
 
-const CartSummary = ({cart}:CartSummaryProps) => {
+const CartSummary = ({cart, isChanging}:CartSummaryProps) => {
     const [loadingStripe, setLoadingStripe] = useState<boolean>(false);
     const handleCheckout = async () => {
         try {
@@ -32,7 +33,7 @@ const CartSummary = ({cart}:CartSummaryProps) => {
       <h2 className="text-center text-2xl font-semibold mt-4">
         Total: {cart?.totalPrice ? formatPrice(cart?.totalPrice) : "$0,00"}
       </h2>
-      <Button disabled={loadingStripe} onClick={handleCheckout} variant="main" className="h-14 w-full disabled:bg-violet-600/50">
+      <Button disabled={loadingStripe || cart?.totalPrice === 0 || isChanging} onClick={handleCheckout} variant="main" className="h-14 w-full disabled:bg-violet-600/50">
         Checkout
       </Button>
     </div>

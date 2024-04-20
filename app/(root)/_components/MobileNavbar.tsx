@@ -8,7 +8,7 @@ import { SignedIn, SignedOut, UserButton,useAuth } from "@clerk/nextjs";
 import { links } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 
 const MobileNavbar = () => {
   
