@@ -20,6 +20,20 @@ export const gender = [
   { name: "Both",},
 ];
 
+export interface OtherFiltersProps{
+  id: number,
+  name: string,
+  value: string 
+}
+
+export const otherFilters = [
+  {id:1, name: "asc", value:"asc"},
+  {id:2, name: "desc", value:"desc"},
+  {id:3, name: "latest", value:"latest"},
+  {id:4, name: "oldest", value:"oldest"},
+];
+
+
 export interface CartItemsProps {
   cart: ShoppingCart &{
     items: (ShoppingCartItem & {product: Product})[]

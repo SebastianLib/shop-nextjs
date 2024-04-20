@@ -1,11 +1,7 @@
 "use client";
 import Pagination from "@/components/shared/Pagination";
 import SingleItem from "@/components/shared/SingleItem";
-import { getAllProducts } from "@/lib/db/product";
 import { Product } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-
 interface AllProductsProps{
   products:Product[],
   totalProductsPages:number

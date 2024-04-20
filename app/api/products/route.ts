@@ -1,9 +1,9 @@
 import Stripe from "stripe";
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import { CartItem } from "@/lib/utils";
 import { prisma } from "@/lib/db/prisma";
 import { stripe } from "@/lib/stripe";
+import { Product, ShoppingCartItem } from "@prisma/client";
 
 interface StripeProductParams{
     productId: string,
@@ -19,8 +19,9 @@ export async function POST(
 
     let line_items:Stripe.Checkout.SessionCreateParams.LineItem[] = [];
     const products:StripeProductParams[] = [];
+
     
-      cart?.items.forEach((item: CartItem)=>{
+      cart?.items.forEach((item: ShoppingCartItem & {product: Product})=>{
         line_items.push({
           quantity: item.quantity,
           price_data: {
