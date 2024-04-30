@@ -17,7 +17,7 @@ const CartSummary = () => {
   const [loadingStripe, setLoadingStripe] = useState<boolean>(false);
   const handleCheckout = async () => {
     try {
-      const dbCart = await createNewCart(cart);
+      const dbCart = await createNewCart(cart!);
       setLoadingStripe(true);
 
       const response = await axios.post("/api/products", {
