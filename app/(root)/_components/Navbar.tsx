@@ -12,7 +12,7 @@ import { cn } from "@/utils/arrays";
 const Navbar = () => {
   const { userId } = useAuth();
   const { cart } = useShoppingCartContext();
-
+  
   return (
     <nav className="fixed top-0 bg-white w-full z-20 shadow-lg">
       <div className="container mx-auto flex justify-between items-center py-4 md:py-8 px-1">

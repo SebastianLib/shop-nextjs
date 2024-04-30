@@ -15,6 +15,7 @@ interface BasketProps{
 }
 
 const Basket = ({cart}: BasketProps) => {
+  
   return (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="relative">

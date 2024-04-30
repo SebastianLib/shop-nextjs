@@ -84,13 +84,13 @@ export function ShoppingCartWrapper({
         if (cartData) {
           const parsedCartData = JSON.parse(cartData);
           if(userId === parsedCartData.userId){
-            return(parsedCartData);
+            setCart(parsedCartData);
           }
           if(parsedCartData.userId === null){
-            return({...parsedCartData, userId: userId || null})
+            setCart({...parsedCartData, userId: userId || null})
           }
           else{
-            return({
+            setCart({
                 userId: userId || null,
                 items: [],
                 quantity: 0,
@@ -99,7 +99,7 @@ export function ShoppingCartWrapper({
               });
           }
         } else {
-          return({
+          setCart({
             userId: userId || null,
             items: [],
             quantity: 0,
