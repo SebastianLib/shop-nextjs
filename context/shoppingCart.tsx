@@ -3,7 +3,6 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Product, Size } from "@prisma/client";
 import { countQuantityAndPrice } from "@/utils/countQuantityAndPrice";
-import { useInitializeCart } from "@/hooks/useInitializeCart";
 import { CartProps } from "@/utils/types";
 
 interface ChangeQuantityProps {
@@ -12,8 +11,8 @@ interface ChangeQuantityProps {
 }
 
 interface ShoppingCartProps {
-  cart: CartProps;
-  setCart: React.Dispatch<React.SetStateAction<CartProps>>
+  cart: CartProps | undefined;
+  setCart: React.Dispatch<React.SetStateAction<CartProps| undefined>>
   addProduct: (product: Product) => void;
   changeQuantity: ({ quantity, id }: ChangeQuantityProps) => void;
   removeProduct: (itemId: string) => void;
@@ -33,9 +32,8 @@ export function ShoppingCartWrapper({
   children: React.ReactNode;
 }) {
   const { userId } = useAuth();
-  const [cart, setCart] = useState<CartProps>(() => {
-    return useInitializeCart(userId)
-  });
+
+  const [cart, setCart] = useState<CartProps>();
   
   const addProduct = (product: Product) => {
     if (!cart) return;
@@ -79,6 +77,39 @@ export function ShoppingCartWrapper({
     const { totalQuantity, totalPrice } = countQuantityAndPrice(prevCart);
     setCart({ ...prevCart, quantity: totalQuantity, totalPrice: totalPrice });
   };
+
+  useEffect(()=>{
+    const useInitializeCart = () => {
+      const cartData = localStorage.getItem("cart")
+        if (cartData) {
+          const parsedCartData = JSON.parse(cartData);
+          if(userId === parsedCartData.userId){
+            return(parsedCartData);
+          }
+          if(parsedCartData.userId === null){
+            return({...parsedCartData, userId: userId || null})
+          }
+          else{
+            return({
+                userId: userId || null,
+                items: [],
+                quantity: 0,
+                totalPrice: 0,
+                sold: false,
+              });
+          }
+        } else {
+          return({
+            userId: userId || null,
+            items: [],
+            quantity: 0,
+            totalPrice: 0,
+            sold: false,
+          });
+        }
+      };
+      useInitializeCart()
+  },[])
   
   useEffect(() => {
     const saveCartToLocalStorage = () => {
@@ -89,7 +120,6 @@ export function ShoppingCartWrapper({
   
     saveCartToLocalStorage();
   }, [cart]);
-
   return (
     <ShoppingCart.Provider
       value={{

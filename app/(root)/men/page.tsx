@@ -43,11 +43,10 @@ const MenPage = () => {
     };
 
     fetchMenProducts();
-  }, [searchParams]);
+  }, []);
 
   if (loading) {
     return <section className="md:mt-40 mt-28 container min-h-screen">
-    <ProductsFilters />
     <Loading/>
   </section>
   }

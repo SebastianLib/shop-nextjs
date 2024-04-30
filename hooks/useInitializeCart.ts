@@ -1,7 +1,7 @@
 
 
 export const useInitializeCart = (userId?:string | null | undefined) => {
-  const cartData = typeof window !== 'undefined' ? localStorage.getItem("cart") : null;
+  const cartData = localStorage.getItem("cart")
     if (cartData) {
       const parsedCartData = JSON.parse(cartData);
       if(userId === parsedCartData.userId){

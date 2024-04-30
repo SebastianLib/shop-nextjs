@@ -11,6 +11,5 @@ import { Product} from "@prisma/client";
     quantity?: number;
     totalPrice?: number;
     sold: false;
-  }
-  
+  }  
   

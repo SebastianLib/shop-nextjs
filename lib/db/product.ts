@@ -79,6 +79,7 @@ interface GetProductsParams {
 }
 
 export async function getProducts({gender, params, actualPage, skip}:GetProductsParams) {
+  
   const { search, category, sort, size } = params
     
   let sizeId
@@ -122,7 +123,7 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
   if (sizeId) {
     whereCondition.sizeId = sizeId;
   }
-
+  
   try {
     const totalProducts = await prisma.product.count(
       { where: whereCondition }
