@@ -6,55 +6,55 @@ import { usePathname, useRouter, useSearchParams} from "next/navigation";
 import { getSizes } from "@/lib/db/size";
 import { Category, Size } from "@prisma/client";
 import SingleFilter from "./SingleFilter";
-import { otherFilters } from "@/lib/utils";
+import { otherFilters } from "@/utils/arrays";
+import { useDebounce } from "@/hooks/useDebounce";
 
 const ProductsFilters = () => {
   const [categories, setCategories] = useState<Category[]>();
   const [sizes, setSizes] = useState<Size[]>();
-
+  const [search, setSearch] = useState<string>("")
   const router = useRouter();
+  useDebounce(search)
+  
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
   const pathname = usePathname();
-  let searchTimeout:ReturnType<typeof setTimeout>
 
   const handleSearchParams= (name:string, value:string) => {
     
-    clearTimeout(searchTimeout);
-    if (value) {
-      params.set(name, value);
-    } else {
-      params.delete(name);
-    }
-    if (value === "all") {
-      params.delete(name);
-    }
-
-    searchTimeout = setTimeout(() => {
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
+      if (value === "all") {
+        params.delete(name);
+      }
       router.push(`${pathname}?${params.toString()}`);
-    }, 200);
   };
 
-  
-  const fetchCategoriesAndSizes = async () => {
-    try {
-      const categoriesData = await getCategories();
-      const sizesData = await getSizes();
-      setCategories(categoriesData);
-      setSizes(sizesData);
-    } catch (error: any) {
-      throw new Error(error);
-    }
-  };
 
   useEffect(() => {    
+    const fetchCategoriesAndSizes = async () => {
+      
+      try {
+        const categoriesData = await getCategories();
+        const sizesData = await getSizes();
+        
+        setCategories(categoriesData);
+        setSizes(sizesData);
+      } catch (error: any) {
+        throw new Error(error);
+      }
+    };
+
     fetchCategoriesAndSizes();
   }, []);
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-100 px-4 py-8 rounded-xl shadow-xl gap-4">
       <Input
-        onChange={(e) => handleSearchParams("search", e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         type="text"
         placeholder="Search"
         defaultValue={params.get("search") || ""}

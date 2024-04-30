@@ -1,4 +1,3 @@
-import { Product, ShoppingCart, ShoppingCartItem } from "@prisma/client";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -32,18 +31,3 @@ export const otherFilters = [
   {id:3, name: "latest", value:"latest"},
   {id:4, name: "oldest", value:"oldest"},
 ];
-
-
-export interface CartItemsProps {
-  cart: ShoppingCart &{
-    items: (ShoppingCartItem & {product: Product})[]
-    quantity?: number;
-    totalPrice?: number
-  };
-}
-
-export interface CartWithProducts extends ShoppingCart {
-  items: (ShoppingCartItem & {product: Product})[];
-  quantity?: number;
-  totalPrice?: number;
-}

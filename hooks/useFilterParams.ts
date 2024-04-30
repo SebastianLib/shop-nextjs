@@ -1,4 +1,4 @@
-export const getFilterParams = ({searchParams}:any) =>{
+export const useFilterParams = ({searchParams}:any) =>{
     const search = searchParams.get("search");
     const category = searchParams.get("category");
     const size = searchParams.get("size");

@@ -1,6 +1,6 @@
 "use client";
 import { Product } from "@prisma/client";
-import { formatPrice } from "@/lib/formatPrice";
+import { formatPrice } from "@/utils/formatPrice";
 import Image from "next/image";
 import Link from "next/link";
 

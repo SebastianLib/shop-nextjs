@@ -16,9 +16,9 @@ export async function createCategory(newItem:string) {
 }
 
 export async function getCategories() {
-
   try {
     const categories = await prisma.category.findMany();
+    
     return categories
   } catch (error) {
     console.error("error loading categories:", error);

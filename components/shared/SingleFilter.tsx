@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { OtherFiltersProps } from "@/lib/utils";
+import { OtherFiltersProps } from "@/utils/arrays";
 import { Category, Size } from "@prisma/client";
 
 interface SingleFilter {

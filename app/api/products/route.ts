@@ -2,7 +2,7 @@ import Stripe from "stripe";
 import { currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/prisma";
-import { stripe } from "@/lib/stripe";
+import { stripe } from "@/utils/stripe";
 import { Product, ShoppingCartItem } from "@prisma/client";
 
 interface StripeProductParams{
@@ -79,7 +79,7 @@ export async function POST(
       
     return NextResponse.json({url: session.url});
   } catch (error) {
-    console.log("[COURSE_ID_CHECKOUT]", error);
+    console.log("[PRODUCT_CHECKOUT]", error);
     return new NextResponse("Internal Error", { status: 500 })
   }
 }

@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
 import ProductsFilters from "@/components/shared/ProductsFilters";
 import Loading from "@/components/shared/LoadingComponent";
 import Pagination from "@/components/shared/Pagination";
-import { getFilterParams } from "@/app/hooks/getFilterParams";
+import { useFilterParams } from "@/hooks/useFilterParams";
 
 const WomenPage = () => {
-  const [products, setProducts] = useState<Product[]>();
+  const [products, setProducts] = useState<Product[] | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const [totalProductsPages, setTotalProductsPages] = useState<number>(0);
@@ -21,7 +21,7 @@ const WomenPage = () => {
     const fetchWomenProducts = async () => {
       try {
         setLoading(true);
-        const params = getFilterParams({searchParams})
+        const params = useFilterParams({searchParams})
 
         const page = searchParams.get("page");
         const actualPage = page ? parseInt(page) - 1 : 0;
@@ -46,14 +46,14 @@ const WomenPage = () => {
   }, [searchParams]);
 
   if (loading) {
-    return <section className="md:mt-40 mt-28 container">
+    return <section className="md:mt-40 mt-28 container min-h-screen">
     <ProductsFilters />
     <Loading/>
   </section>
   }
 
   return (
-    <section className="md:mt-40 mt-28 container">
+    <section className="md:mt-40 mt-28 container min-h-screen">
       <ProductsFilters />
       {products!.length == 0 && (
         <h2 className="text-center text-2xl mt-10">No products found</h2>

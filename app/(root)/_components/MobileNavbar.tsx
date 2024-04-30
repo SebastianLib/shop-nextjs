@@ -5,7 +5,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { SignedIn, SignedOut, UserButton,useAuth } from "@clerk/nextjs";
-import { links } from "@/lib/utils";
+import { links } from "@/utils/arrays";
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../../../components/ui/button";

@@ -23,6 +23,7 @@ const PurchasedPage = async () => {
   const allItems = purchasedItems!.reduce((accumulator, obj) => {
     return accumulator.concat(obj.items as PurchasedProduct[]);
   }, [] as PurchasedProduct[]);
+  
   return (
       <PurchasedItemsList allItems={allItems} />
   );

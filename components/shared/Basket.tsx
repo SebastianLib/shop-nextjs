@@ -4,15 +4,14 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { formatPrice } from "@/lib/formatPrice";
-import { CartWithProducts } from "@/lib/utils";
+import { formatPrice } from "@/utils/formatPrice";
+import { CartProps} from "@/utils/types";
 interface BasketProps{
-  cart: CartWithProducts
+  cart: CartProps
 }
 
 const Basket = ({cart}: BasketProps) => {

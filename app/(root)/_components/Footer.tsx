@@ -1,4 +1,4 @@
-import { links } from "@/lib/utils";
+import { links } from "@/utils/arrays";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

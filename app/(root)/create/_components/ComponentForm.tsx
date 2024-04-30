@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { createProduct } from "@/lib/db/product";
 import { useUser } from "@clerk/nextjs";
-import { gender } from "@/lib/utils";
+import { gender } from "@/utils/arrays";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Category, Size } from "@prisma/client";
@@ -53,7 +53,6 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
     if (!image || !user) return;
 
     const newProduct = { ...values, image, userId: user?.id };
-    console.log(newProduct);
     
     try {
       setStatusNewProduct(true);
@@ -68,7 +67,7 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
   }
 
   return (
-    <section className="flex flex-col items-center mt-40 container">
+    <section className="flex flex-col items-center mt-40 container min-h-screen">
       <h1 className="text-3xl sm:text-4xl font-semibold">Create Product</h1>
       <Form {...form}>
         <form
