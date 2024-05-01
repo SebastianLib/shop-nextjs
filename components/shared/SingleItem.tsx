@@ -8,14 +8,16 @@ const SingleItem = (product: Product) => {
   return (
     <Link href={`/product/${product?.id}`} key={product?.id}>
       <div className="flex flex-col p-4 rounded-xl h-[480px] border gap-4 transition hover:bg-slate-50">
+        <div className="relative w-full h-full max-h-[450px]">
         <Image
           src={product?.image}
-          width={300}
-          height={450}
+          fill
+          sizes="w-full"
           alt={product?.name}
           priority={true}
-          className="w-full h-80 max-h-80 object-cover object-center"
+          className=" object-cover object-center"
         />
+        </div>
         <div>
           <h2 className="text-2xl line-clamp-1">{product?.name}</h2>
           <p className="text-gray-600">

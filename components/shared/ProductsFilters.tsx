@@ -1,17 +1,18 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
-import { getCategories } from "@/lib/db/category";
+import { useState } from "react";
 import { usePathname, useRouter, useSearchParams} from "next/navigation";
-import { getSizes } from "@/lib/db/size";
 import { Category, Size } from "@prisma/client";
 import SingleFilter from "./SingleFilter";
 import { otherFilters } from "@/utils/arrays";
 import { useDebounce } from "@/hooks/useDebounce";
 
-const ProductsFilters = () => {
-  const [categories, setCategories] = useState<Category[]>();
-  const [sizes, setSizes] = useState<Size[]>();
+interface ProductFiltersProps{
+  categories: Category[],
+  sizes: Size[],
+}
+
+const ProductsFilters = ({categories, sizes}:ProductFiltersProps) => {
   const [search, setSearch] = useState<string>("")
   const router = useRouter();
   useDebounce(search)
@@ -33,26 +34,8 @@ const ProductsFilters = () => {
       router.push(`${pathname}?${params.toString()}`);
   };
 
-
-  useEffect(() => {    
-    const fetchCategoriesAndSizes = async () => {
-      
-      try {
-        const categoriesData = await getCategories();
-        const sizesData = await getSizes();
-        
-        setCategories(categoriesData);
-        setSizes(sizesData);
-      } catch (error: any) {
-        throw new Error(error);
-      }
-    };
-
-    fetchCategoriesAndSizes();
-  }, []);
-  
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-100 px-4 py-8 rounded-xl shadow-xl gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 border border-gray-100 px-4 py-8 rounded-xl shadow-xl gap-4 -mt-6">
       <Input
         onChange={(e) => setSearch(e.target.value)}
         type="text"

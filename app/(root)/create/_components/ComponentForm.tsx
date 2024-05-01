@@ -3,9 +3,7 @@ import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import { useState } from "react";
 import { createProduct } from "@/lib/db/product";
 import { useUser } from "@clerk/nextjs";
@@ -19,10 +17,11 @@ import NameForm from "./NameForm";
 import SelectForm from "./SelectForm";
 import PriceForm from "./PriceForm";
 import SelectGenderForm from "./SelectGenderForm";
+import PageLayout from "@/components/shared/PageLayout";
 
-interface FormComponentProps{
-    categories: Category[],
-    sizes: Size[]
+interface FormComponentProps {
+  categories: Category[];
+  sizes: Size[];
 }
 
 export const formSchema = z.object({
@@ -34,7 +33,7 @@ export const formSchema = z.object({
   gender: z.string(),
 });
 
-const FormComponent = ({categories, sizes}:FormComponentProps) => {
+const FormComponent = ({ categories, sizes }: FormComponentProps) => {
   const [image, setImage] = useState<string>();
   const [statusNewProduct, setStatusNewProduct] = useState<boolean>(false);
   const router = useRouter();
@@ -53,7 +52,7 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
     if (!image || !user) return;
 
     const newProduct = { ...values, image, userId: user?.id };
-    
+
     try {
       setStatusNewProduct(true);
       await createProduct(newProduct);
@@ -61,43 +60,45 @@ const FormComponent = ({categories, sizes}:FormComponentProps) => {
       router.push("/");
     } catch (error: any) {
       throw new Error(error);
-    }finally{
-      setStatusNewProduct(false)
+    } finally {
+      setStatusNewProduct(false);
     }
   }
 
   return (
-    <section className="flex flex-col items-center mt-40 container min-h-screen">
-      <h1 className="text-3xl sm:text-4xl font-semibold">Create Product</h1>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full"
-        >
-          <div className="flex flex-col gap-4">
-          <NameForm form={form}/>
-          <DescriptionForm form={form}/>
-          <SelectGenderForm form={form} values={gender}/>
-          <PriceForm form={form}/>
-          </div>
-
-          <div className="flex flex-col gap-4">
-          <SelectForm form={form} values={sizes} type="size"/>
-          <SelectForm form={form} values={categories} type="category"/>
-          <UploadImage image={image} setImage={setImage}/>
-          </div>
-
-          <Button
-            className="px-4 py-7 rounded-full text-xl md:col-span-2"
-            type="submit"
-            variant="main"
-            disabled={statusNewProduct}
+    <PageLayout>
+      <div className="flex flex-col items-center">
+        <h1 className="text-3xl sm:text-4xl font-semibold">Create Product</h1>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full"
           >
-            Submit
-          </Button>
-        </form>
-      </Form>
-    </section>
+            <div className="flex flex-col gap-4">
+              <NameForm form={form} />
+              <DescriptionForm form={form} />
+              <SelectGenderForm form={form} values={gender} />
+              <PriceForm form={form} />
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <SelectForm form={form} values={sizes} type="size" />
+              <SelectForm form={form} values={categories} type="category" />
+              <UploadImage image={image} setImage={setImage} />
+            </div>
+
+            <Button
+              className="px-4 py-7 rounded-full text-xl md:col-span-2"
+              type="submit"
+              variant="main"
+              disabled={statusNewProduct}
+            >
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </PageLayout>
   );
 };
 

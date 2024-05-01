@@ -4,12 +4,13 @@ import CartSummary from "./_components/CartSummary";
 import Link from "next/link";
 import CartItems from "./_components/CartItems";
 import { useShoppingCartContext } from "@/context/shoppingCart";
+import PageLayout from "@/components/shared/PageLayout";
 
 const CartPage = () => {
   const { cart } = useShoppingCartContext();
 
   return (
-    <section className="md:mt-40 mt-28 min-h-screen container overflow-x-hidden">
+    <PageLayout>
       <h1 className="text-center text-5xl font-semibold">Shopping Cart</h1>
       <div className="border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {cart!.items?.length < 1 ? (
@@ -26,7 +27,7 @@ const CartPage = () => {
           </>
         )}
       </div>
-    </section>
+    </PageLayout>
   );
 };
 

@@ -5,40 +5,38 @@ import Link from "next/link";
 
 const Choice = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 mt-10">
-      <Link href="/women">
-        <div className="group relative border cursor-pointer hover:scale-105 transition duration-500 max-w-[500px] h-[400px] md:h-[600px]">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-10 container mx-auto">
+      <Link href="/women" className="flex xs:justify-center md:justify-end">
+        <div className="relative border cursor-pointer hover:scale-105 transition duration-500 w-full h-full max-w-[350px] md:max-w-[450px] min-h-[400px] lg:min-h-[600px]">
           <Image
             src={woman}
-            width={500}
-            height={600}
+            fill
             alt="woman"
+            sizes="w-full"
             priority={true}
-            className="w-full h-full object-cover"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500 flex justify-center items-center">
+          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-500 flex justify-center items-center">
             <h1 className="text-white text-3xl">Women</h1>
           </div>
         </div>
       </Link>
 
-      <Link href="/men">
-        <div className="group relative border cursor-pointer hover:scale-105 transition duration-500 max-w-[500px] h-[400px] md:h-[600px]">
+      <Link href="/men" className="flex xs:justify-center md:justify-start">
+        <div className=" relative border cursor-pointer hover:scale-105 transition duration-500 w-full h-full max-w-[350px] md:max-w-[450px] min-h-[400px] lg:min-h-[600px]">
           <Image
             src={man}
-            width={500}
-            height={600}
+            fill
             alt="men"
+            sizes="w-full"
             priority={true}
-            className="w-full h-full object-cover"
+            className="object-cover"
           />
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition duration-500 flex justify-center items-center">
+          <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition duration-500 flex justify-center items-center">
             <h1 className="text-white text-3xl">Men</h1>
           </div>
         </div>
       </Link>
-
-
     </div>
   );
 };

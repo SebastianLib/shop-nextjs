@@ -11,21 +11,16 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Loading from "./loading";
 import { useShoppingCartContext } from "@/context/shoppingCart";
+import PageLayout from "@/components/shared/PageLayout";
 
 const SingleProduct = ({ params }: { params: { id: string } }) => {
   const { addProduct } = useShoppingCartContext();
-  const { userId } = useAuth();
   const [product, setProduct] = useState<
     Product & {
       size: Size | null;
     }
   >();
   const [loading, setLoading] = useState<boolean>(true);
-
-  const handleProduct = async (productId: string) => {
-    addProduct(product!);
-    toast.success("product has been added to cart")
-  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -50,21 +45,20 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
     return redirect("/");
   }
   return (
-    <section className="container">
-      <div className="grid grid-cols-1 md:grid-cols-2 h-screen place-items-center gap-8 py-4 mt-20 md:mt-0">
-        <div className="w-full flex justify-center  md:self-center self-end">
+    <PageLayout>
+      <div className="grid grid-cols-1 md:grid-cols-2 place-items-center gap-8 py-4 mt-20 md:mt-0">
+        <div className="relative flex justify-center w-full h-full min-w-[300px] min-h-[450px] max-w-[400px] max-h-[650px]">
           <Image
             src={product.image}
-            width={500}
-            height={500}
+            fill
             alt={product.name}
             priority={true}
-            className="object-cover w-auto min-w-[250px] lg:min-w-[500px] max-h-[400px] md:max-h-[600px] "
+            className="object-cover"
           />
         </div>
         <div className="flex flex-col self-start md:self-center w-full gap-4 ">
-          <div className="flex flex-col gap-2 md:gap-4">
-            <h1 className="text-3xl lg:text-5xl font-semibold">
+          <div className="xs:text-center md:text-left flex flex-col gap-2 md:gap-4">
+            <h1 className=" text-3xl lg:text-5xl font-semibold">
               {product.name}
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl font-semibold">
@@ -74,19 +68,19 @@ const SingleProduct = ({ params }: { params: { id: string } }) => {
               {product.description}
             </p>
           </div>
-          <p className="text-xl font-semibold">{formatPrice(product.price)}</p>
+          <p className="xs:text-center md:text-left text-xl font-semibold">{formatPrice(product.price)}</p>
           <div className="flex xs:flex-col sm:flex-row gap-4">
             <Button
-              onClick={() => handleProduct(product.id)}
+              onClick={() => addProduct(product)}
               variant="main"
-              className="text-2xl max-w-fit p-8"
+              className="text-2xl xs:w-full md:max-w-fit p-8"
             >
               Add to cart
             </Button>
           </div>
         </div>
       </div>
-    </section>
+      </PageLayout>
   );
 };
 

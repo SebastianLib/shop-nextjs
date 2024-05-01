@@ -5,6 +5,7 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import PageLayout from "@/components/shared/PageLayout";
 
 interface PurchasedProduct extends ShoppingCartItem {
   product: Product & {
@@ -12,12 +13,12 @@ interface PurchasedProduct extends ShoppingCartItem {
       id: string;
       size: string;
     };
-  }&{
-    category:{
+  } & {
+    category: {
       id: string;
       name: string;
-    }
-  }
+    };
+  };
 }
 
 interface PurchasedItemsListComponentProps {
@@ -29,7 +30,7 @@ const PurchasedItemsListComponent = ({
 }: PurchasedItemsListComponentProps) => {
   const [numberItems, setNumberItems] = useState<number>(4);
   return (
-    <div className="md:mt-40 mt-28 min-h-screen container overflow-x-hidden">
+    <PageLayout>
       <h1 className="text-center text-4xl font-semibold">Purchased Items</h1>
       <div className="flex flex-col gap-8 border rounded-xl shadow-xl max-w-5xl mx-auto mt-10 mb-12 p-4">
         {allItems.length === 0 && (
@@ -87,13 +88,14 @@ const PurchasedItemsListComponent = ({
         {allItems.length > numberItems && (
           <Button
             variant="main"
+            className="h-12"
             onClick={() => setNumberItems((prev) => prev + 4)}
           >
             load more
           </Button>
         )}
       </div>
-    </div>
+    </PageLayout>
   );
 };
 
