@@ -27,6 +27,7 @@ const useFetchProducts = (gender?: string) => {
             actualPage,
             skip,
           });
+          
 
         setTotalProductsPages(
           Math.ceil(totalProducts / skip)

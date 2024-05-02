@@ -54,7 +54,7 @@ export async function getLatestProducts() {
   try {
 
     const products = await prisma.product.findMany({
-      take: 10,
+      take: 7,
       orderBy: {
         id: 'desc',
       }
@@ -78,104 +78,19 @@ interface GetProductsParams {
   skip: number
 }
 
-// export async function getProducts({ gender, params, actualPage, skip }: GetProductsParams) {
+export async function getProducts({ gender, params, actualPage, skip }: GetProductsParams) {
 
-//   const { search, category, sort, size } = params
-
-//   let sizeId
-//   if (size) {
-//     sizeId = await getSizeId(size)
-//   }
-//   let categoryId
-//   if (category) {
-//     categoryId = await getCategoryId(category)
-//   }
-
-//   interface OrderBy {
-//     [key: string]: string;
-//   }
-
-//   const orderBy: OrderBy = {};
-
-
-//   if (sort === "asc" || sort === "desc") {
-//     orderBy["price"] = sort
-//   }
-//   if (sort === "latest" || sort === "oldest") {
-//     const value = sort === "latest" ? "asc" : "desc";
-//     orderBy["id"] = value
-//   }
-
-//   const whereCondition: {
-//     categoryId?: string;
-//     name?: { contains: string; mode: any };
-//     sizeId?: string
-//   } = {
-//     categoryId: categoryId,
-//     sizeId: sizeId,
-//   };
-
-//   if (search) {
-//     whereCondition.name = { contains: search, mode: "insensitive" };
-//   }
-
-
-//   try {
-//     const totalProducts = await prisma.product.count(
-//       { where: whereCondition }
-//     )
-//     if (gender) {
-//       const products = await prisma.product.findMany(
-//         {
-//           where: {
-//             ...whereCondition, OR: [
-//               {
-//                 gender: gender
-//               },
-//               { gender: "Both" },
-//             ],
-//           },
-//           orderBy: orderBy,
-//           skip: actualPage * skip,
-//           take: skip
-//         }
-//       );
-//       return {
-//         products,
-//         totalProducts
-//       };
-//     } else {
-//       const products = await prisma.product.findMany(
-//         {
-//           where: { ...whereCondition },
-//           orderBy: orderBy,
-//           skip: actualPage * skip,
-//           take: skip
-//         }
-//       );
-//       return {
-//         products,
-//         totalProducts
-//       };
-//     }
-//   } catch (error) {
-//     console.error("error loading products:", error);
-//     throw error;
-//   }
-// }
-export async function getProducts({gender, params, actualPage, skip}:GetProductsParams) {
-  
   const { search, category, sort, size } = params
-    
+
   let sizeId
-    if(size){
-      sizeId = await getSizeId(size)
-    }
+  if (size) {
+    sizeId = await getSizeId(size)
+  }
   let categoryId
-    if(category){
-      categoryId = await getCategoryId(category)
-    }
-  
+  if (category) {
+    categoryId = await getCategoryId(category)
+  }
+
   interface OrderBy {
     [key: string]: string;
   }
@@ -192,12 +107,10 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
   }
 
   const whereCondition: {
-    gender: string;
     categoryId?: string;
     name?: { contains: string; mode: any };
     sizeId?: string
   } = {
-    gender: gender,
     categoryId: categoryId,
     sizeId: sizeId,
   };
@@ -206,23 +119,57 @@ export async function getProducts({gender, params, actualPage, skip}:GetProducts
     whereCondition.name = { contains: search, mode: "insensitive" };
   }
 
-  
+
   try {
-    const totalProducts = await prisma.product.count(
-      { where: whereCondition }
-    )
-    const products = await prisma.product.findMany(
-      {
-        where: whereCondition,
-        orderBy: orderBy,
-        skip: actualPage * skip,
-        take: skip
-      }
-    );
-    return {
-      products,
-      totalProducts
-    };
+    
+    if (gender) {
+      const totalProducts = await prisma.product.count(
+        {where: {
+          ...whereCondition, OR: [
+            {
+              gender: gender
+            },
+            { gender: "Both" },
+          ],
+        },}
+      )
+      const products = await prisma.product.findMany(
+        {
+          where: {
+            ...whereCondition, OR: [
+              {
+                gender: gender
+              },
+              { gender: "Both" },
+            ],
+          },
+          orderBy: orderBy,
+          skip: actualPage * skip,
+          take: skip
+        }
+      );
+      
+      return {
+        products,
+        totalProducts
+      };
+    } else {
+      const totalProducts = await prisma.product.count(
+        {where: whereCondition}
+      )
+      const products = await prisma.product.findMany(
+        {
+          where: { ...whereCondition },
+          orderBy: orderBy,
+          skip: actualPage * skip,
+          take: skip
+        }
+      );
+      return {
+        products,
+        totalProducts
+      };
+    }
   } catch (error) {
     console.error("error loading products:", error);
     throw error;

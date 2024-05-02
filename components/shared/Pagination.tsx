@@ -19,26 +19,24 @@ const Pagination = ({ totalProductsPages }: ProductFiltersProps) => {
     totalProductsPages,
   });
 
-  function handleNextPage() {
-    const page = actualPage + 1;
-    params.set("page", page.toString());
+  function handlePage(type: string | null, number?:number) {
+    let newPage:number
+    if(type === "prev"){
+      newPage = actualPage - 1;
+    }
+    if(type === "next"){
+      newPage = actualPage + 1;
+    }
+    if(type === null){
+      newPage = number!
+    }
+    params.set("page", newPage!.toString());
     router.push(`${pathname}?${params.toString()}`);
   }
-
-  function handlePrevPage() {
-    const page = actualPage - 1;
-    params.set("page", page.toString());
-    router.push(`${pathname}?${params.toString()}`);
-  }
-  const handlePage = (page: number) => {
-    params.set("page", page.toString());
-    router.push(`${pathname}?${params.toString()}`);
-  };
-
   return (
-    <div className="flex justify-center my-4 gap-4">
+    <div className="flex justify-center my-8 gap-4">
       <button
-        onClick={handlePrevPage}
+        onClick={()=>handlePage("prev")}
         disabled={actualPage == 1}
         className={` text-white px-4 ${
           actualPage == 1 ? "bg-violet-400" : "bg-violet-600"
@@ -52,7 +50,7 @@ const Pagination = ({ totalProductsPages }: ProductFiltersProps) => {
           return (
             <div
               key={index}
-              onClick={() => handlePage(page.value!)}
+              onClick={()=>handlePage(null, page.value!)}
               className={`px-6 py-2 text-white cursor-pointer ${
                 page.value === actualPage ? "bg-violet-600" : "bg-violet-400"
               }`}
@@ -68,7 +66,7 @@ const Pagination = ({ totalProductsPages }: ProductFiltersProps) => {
         </div>
       </div>
       <button
-        onClick={handleNextPage}
+        onClick={()=>handlePage("next")}
         disabled={actualPage >= totalProductsPages}
         className={` text-white px-4 ${
           actualPage >= totalProductsPages ? "bg-violet-400" : "bg-violet-600"

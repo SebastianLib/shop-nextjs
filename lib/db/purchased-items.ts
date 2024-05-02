@@ -32,3 +32,30 @@ export const getPurchasedItems = async (userId: string) => {
         console.error("error loading products:", error);
     }
 }
+
+export async function getBestsellers() {
+    try {
+        const purchasedItems = await prisma.shoppingCartItem.groupBy({
+            by: "productId",
+            _sum:{quantity: true},
+              orderBy:{
+                _sum:{
+                    quantity: "desc"
+                }
+              },
+              take: 7,
+        },)
+        
+        const values = purchasedItems.map(item => item.productId)
+
+        const products = await prisma.product.findMany({
+            where:{
+                id: { in: values}
+            }
+        })
+        return products
+    } catch (error) {
+        console.error("error loading bestsellers:", error);
+        throw error;
+    }
+}

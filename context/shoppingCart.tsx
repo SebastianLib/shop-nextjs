@@ -12,7 +12,7 @@ interface ChangeQuantityProps {
 
 interface ShoppingCartProps {
   cart: CartProps | undefined;
-  setCart: React.Dispatch<React.SetStateAction<CartProps| undefined>>
+  setCart: React.Dispatch<React.SetStateAction<CartProps | undefined>>;
   addProduct: (product: Product) => void;
   changeQuantity: ({ quantity, id }: ChangeQuantityProps) => void;
   removeProduct: (itemId: string) => void;
@@ -34,7 +34,7 @@ export function ShoppingCartWrapper({
   const { userId } = useAuth();
 
   const [cart, setCart] = useState<CartProps>();
-  
+
   const addProduct = (product: Product) => {
     if (!cart) return;
     const existingProductIndex = cart.items?.findIndex(
@@ -78,28 +78,19 @@ export function ShoppingCartWrapper({
     setCart({ ...prevCart, quantity: totalQuantity, totalPrice: totalPrice });
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const useInitializeCart = () => {
-      const cartData = localStorage.getItem("cart")
-        if (cartData) {
-          const parsedCartData = JSON.parse(cartData);
-          if(userId === parsedCartData.userId){
-            setCart(parsedCartData);
-          }
-          if(parsedCartData.userId === null){
-            setCart({...parsedCartData, userId: userId || null})
-          }
-          else{
-            setCart({
-                userId: userId || null,
-                items: [],
-                quantity: 0,
-                totalPrice: 0,
-                sold: false,
-              });
-          }
+      const cartData = localStorage.getItem("cart");
+
+      if (cartData) {
+        const parsedCartData = JSON.parse(cartData);
+        if (userId === parsedCartData.userId) {
+          return setCart(parsedCartData);
+        }
+        if (parsedCartData.userId === null) {
+          return setCart({ ...parsedCartData, userId: userId || null });
         } else {
-          setCart({
+          return setCart({
             userId: userId || null,
             items: [],
             quantity: 0,
@@ -107,17 +98,26 @@ export function ShoppingCartWrapper({
             sold: false,
           });
         }
-      };
-      useInitializeCart()
-  },[])
-  
+      } else {
+        return setCart({
+          userId: userId || null,
+          items: [],
+          quantity: 0,
+          totalPrice: 0,
+          sold: false,
+        });
+      }
+    };
+    useInitializeCart();
+  }, []);
+
   useEffect(() => {
     const saveCartToLocalStorage = () => {
       if (cart) {
         localStorage.setItem("cart", JSON.stringify(cart));
       }
     };
-  
+
     saveCartToLocalStorage();
   }, [cart]);
   return (

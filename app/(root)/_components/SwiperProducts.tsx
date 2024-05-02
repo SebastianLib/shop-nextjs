@@ -1,9 +1,5 @@
 "use client";
-import { getLatestProducts } from "@/lib/db/product";
 import { Product } from "@prisma/client";
-import Image from "next/image";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/css";
@@ -12,10 +8,10 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import SingleItem from "@/components/shared/SingleItem";
 
-const LatestProducts = ({ products }: { products: Product[] }) => {
+const LatestProducts = ({ products, text }: { products: Product[], text:string }) => {
   return (
-    <div className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
-      <h2 className="text-2xl">Latest Products</h2>
+    <section className="mt-12 w-full flex flex-col gap-4 overflow-x-hidden">
+      <h2 className="text-2xl">{text}</h2>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y]}
         spaceBetween={50}
@@ -48,7 +44,7 @@ const LatestProducts = ({ products }: { products: Product[] }) => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </div>
+    </section>
   );
 };
 
