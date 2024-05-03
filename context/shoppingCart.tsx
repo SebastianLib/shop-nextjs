@@ -3,20 +3,8 @@ import { createContext, useState, useContext, useEffect } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { Product, Size } from "@prisma/client";
 import { countQuantityAndPrice } from "@/utils/countQuantityAndPrice";
-import { CartProps } from "@/utils/types";
+import { CartProps, ChangeQuantityProps, ShoppingCartProps } from "@/types/types";
 
-interface ChangeQuantityProps {
-  quantity: number;
-  id: string;
-}
-
-interface ShoppingCartProps {
-  cart: CartProps | undefined;
-  setCart: React.Dispatch<React.SetStateAction<CartProps | undefined>>;
-  addProduct: (product: Product) => void;
-  changeQuantity: ({ quantity, id }: ChangeQuantityProps) => void;
-  removeProduct: (itemId: string) => void;
-}
 
 const ShoppingCart = createContext<ShoppingCartProps>({
   cart: { userId: null, items: [], quantity: 0, totalPrice: 0, sold: false },

@@ -1,6 +1,5 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { formSchema } from "./ComponentForm";
 import {
   FormControl,
   FormField,
@@ -17,9 +16,10 @@ import {
 } from "@/components/ui/select";
 import { Category, Size } from "@prisma/client";
 import CreateAlert from "./CreateAlert";
+import { CreateProductSchema } from "@/schemas/createProduct";
 
 interface SelectFormProps {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
+  form: UseFormReturn<z.infer<typeof CreateProductSchema>>;
   values: Category[] | Size[];
   type: "category" | "size" ;
 }

@@ -4,8 +4,8 @@ import { useState } from "react";
 import { usePathname, useRouter, useSearchParams} from "next/navigation";
 import { Category, Size } from "@prisma/client";
 import SingleFilter from "./SingleFilter";
-import { otherFilters } from "@/utils/arrays";
 import { useDebounce } from "@/hooks/useDebounce";
+import { otherFilters } from "@/constants/otherFilters";
 
 interface ProductFiltersProps{
   categories: Category[],

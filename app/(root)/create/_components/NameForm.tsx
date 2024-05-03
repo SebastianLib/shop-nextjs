@@ -1,11 +1,11 @@
 import React from 'react'
 import { UseFormReturn } from 'react-hook-form'
-import { formSchema } from './ComponentForm'
 import { FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { z } from 'zod'
+import { CreateProductSchema } from '@/schemas/createProduct'
 
-const NameForm = ({ form }: { form: UseFormReturn<z.infer<typeof formSchema>> }) => {
+const NameForm = ({ form }: {   form: UseFormReturn<z.infer<typeof CreateProductSchema>> }) => {
   return (
     <FormField
     control={form.control}

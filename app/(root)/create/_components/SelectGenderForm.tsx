@@ -1,6 +1,5 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { formSchema } from "./ComponentForm";
 import {
   FormControl,
   FormField,
@@ -15,9 +14,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CreateProductSchema } from "@/schemas/createProduct";
 
 interface SelectGenderFormProps {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
+  form: UseFormReturn<z.infer<typeof CreateProductSchema>>;
   values: {name: string}[];
 }
 

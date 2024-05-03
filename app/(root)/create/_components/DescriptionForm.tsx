@@ -1,6 +1,5 @@
 import React from "react";
 import { UseFormReturn } from "react-hook-form";
-import { formSchema } from "./ComponentForm";
 import {
   FormControl,
   FormField,
@@ -9,11 +8,12 @@ import {
 } from "@/components/ui/form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
+import { CreateProductSchema } from "@/schemas/createProduct";
 
 const DescriptionForm = ({
   form,
 }: {
-  form: UseFormReturn<z.infer<typeof formSchema>>;
+  form: UseFormReturn<z.infer<typeof CreateProductSchema>>;
 }) => {
   return (
     <FormField

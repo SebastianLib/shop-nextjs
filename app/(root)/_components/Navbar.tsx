@@ -7,7 +7,7 @@ import Basket from "../../../components/shared/Basket";
 import Image from "next/image";
 import NavbarLinks from "../../../components/shared/NavbarLinks";
 import { useShoppingCartContext } from "@/context/shoppingCart";
-import { cn } from "@/utils/arrays";
+import { cn } from "@/utils/cn";
 
 const Navbar = () => {
   const { userId } = useAuth();

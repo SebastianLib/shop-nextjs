@@ -7,7 +7,6 @@ import { Form } from "@/components/ui/form";
 import { useState } from "react";
 import { createProduct } from "@/lib/db/product";
 import { useUser } from "@clerk/nextjs";
-import { gender } from "@/utils/arrays";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { Category, Size } from "@prisma/client";
@@ -18,37 +17,24 @@ import SelectForm from "./SelectForm";
 import PriceForm from "./PriceForm";
 import SelectGenderForm from "./SelectGenderForm";
 import PageLayout from "@/components/shared/PageLayout";
+import { CreateProductSchema, CreateProductSchemaType } from "@/schemas/createProduct";
+import { gender } from "@/constants/gender";
 
 interface FormComponentProps {
   categories: Category[];
   sizes: Size[];
 }
 
-export const formSchema = z.object({
-  name: z.string().min(2).max(50),
-  categoryId: z.string().min(2).max(50),
-  sizeId: z.string(),
-  description: z.string().min(2).max(500),
-  price: z.number(),
-  gender: z.string(),
-});
-
 const FormComponent = ({ categories, sizes }: FormComponentProps) => {
   const [image, setImage] = useState<string>();
   const [statusNewProduct, setStatusNewProduct] = useState<boolean>(false);
   const router = useRouter();
   const { user } = useUser();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      categoryId: "",
-      description: "",
-      sizeId: "",
-    },
+  const form = useForm<CreateProductSchemaType>({
+    resolver: zodResolver(CreateProductSchema),
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof CreateProductSchema>) {
     if (!image || !user) return;
 
     const newProduct = { ...values, image, userId: user?.id };

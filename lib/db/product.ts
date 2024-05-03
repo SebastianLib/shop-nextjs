@@ -1,21 +1,11 @@
 "use server"
-import { useParams } from "next/navigation";
 import { getCategoryId } from "./category";
 import { prisma } from "./prisma";
 import { getSizeId } from "./size";
+import { CreateProductParams, GetProductsParams } from "@/types/types";
 
-export interface ProductParams {
-  id?: string;
-  userId: string;
-  name: string;
-  categoryId: string;
-  image: string;
-  description: string;
-  price: number;
-  gender: string;
-  sizeId: string
-}
-export async function createProduct(newProduct: ProductParams) {
+
+export async function createProduct(newProduct: CreateProductParams) {
   try {
     const product = await prisma.product.create({
       data: {
@@ -64,18 +54,6 @@ export async function getLatestProducts() {
     console.error("error loading products:", error);
     throw error;
   }
-}
-
-interface GetProductsParams {
-  gender: string,
-  params: {
-    search: string | null,
-    category: string | null,
-    sort: string | null,
-    size: string | null
-  },
-  actualPage: number,
-  skip: number
 }
 
 export async function getProducts({ gender, params, actualPage, skip }: GetProductsParams) {

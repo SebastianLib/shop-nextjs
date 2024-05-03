@@ -1,5 +1,5 @@
-import woman from "@/assets/woman.jpg";
-import man from "@/assets/man.jpg";
+import woman from "@/public/woman.jpg";
+import man from "@/public/man.jpg";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -1,7 +1,6 @@
 "use client";
 import { getAllProducts, getLatestProducts } from "@/lib/db/product";
 import { Product, ShoppingCartItem } from "@prisma/client";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import Loading from "@/components/shared/LoadingComponent";
 import Choice from "./_components/Choice";

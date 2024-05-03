@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { formatPrice } from "@/utils/formatPrice";
-import { CartProps} from "@/utils/types";
+import { CartProps} from "@/types/types";
 interface BasketProps{
   cart: CartProps
 }

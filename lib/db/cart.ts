@@ -1,19 +1,6 @@
 "use server"
-import { Product } from "@prisma/client";
 import { prisma } from "./prisma";
-interface CartProps {
-    userId?: string | null;
-    items:
-    | {
-        product: Product;
-        productId: string;
-        quantity: number;
-    }[]
-    | [];
-    quantity?: number;
-    totalPrice?: number;
-    sold: false;
-}
+import { CartProps } from "@/types/types";
 
 export const createNewCart = async (data: CartProps) => {
     const { userId, items, sold } = data
@@ -26,7 +13,7 @@ export const createNewCart = async (data: CartProps) => {
             },
         })
         items.forEach(async (item) => {
-            const newItem = await prisma.shoppingCartItem.create({
+            await prisma.shoppingCartItem.create({
                 data: {
                     shoppingCartId: cart.id,
                     quantity: item.quantity,
