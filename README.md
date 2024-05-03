@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Demo
 
-## Getting Started
+- **Live Demo:** https://shop-nextjs-beta.vercel.app/ 
 
-First, run the development server:
+#### Demo Account
+- **Email:** sebastianlib04@gmail.com
+- **Password:** applicationdemo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Shop-nextjs
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+In this application, you can create your own products, filter items by various categories, add them to your shopping cart, and buy them by stripe if you are logged in. You can also see your purchased products in the 'Purchased Items' section.
+## Technologies
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Project is built with:
 
-## Learn More
+- [**React**](https://react.dev/)
+- [**Nextjs**](https://nextjs.org/docs)
+- [**Typescript**](https://www.typescriptlang.org/)
+- [**MongoDB**](https://www.mongodb.com/)
+- [**Prisma**](https://www.prisma.io/)
+- [**Tailwind**](https://tailwindcss.com/)
+- [**Stripe**](https://stripe.com/en-pl)
+- [**Axios**](https://axios-http.com/)
+- [**React-Toastify**](https://fkhadra.github.io/react-toastify/introduction/)
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **User Authentication 🙋‍♂️**: Users can sign up and log in with an email and password provided by the clerk. They can also manage their accounts, for example, by changing their password or username.
+- **Creating Products**: Everyone can add new products. Additionally, users have the option to add new categories and sizes if they desire.
+- **Search 🔍**: Users can search for products by various categories, such as gender, price, and product categories.
+- **Buy Products**:  Everyone can purchase items using Stripe. After purchasing an item, users can view their bought products in the 'Purchased Items' section.
+- **Responsive design 📱**: Users can access the application on various devices and screen sizes, thanks to Tailwind CSS. The layout and components adapt to the viewport width and orientation
