@@ -1,3 +1,8 @@
+## Shop-nextjs
+
+Shop-nextjs is a user-friendly online shopping platform built with modern technologies like React, Next.js, and MongoDB. It offers seamless user authentication by clerk, easy product creation, efficient search functionality, secure Stripe payments, and responsive design for optimal user experience.
+
+
 ## Demo
 
 - **Live Demo:** https://shop-nextjs-beta.vercel.app/ 
@@ -7,9 +12,6 @@
 - **Password:** applicationdemo
 
 
-## Shop-nextjs
-
-In this application, you can create your own products, filter items by various categories, add them to your shopping cart, and buy them by stripe if you are logged in. You can also see your purchased products in the 'Purchased Items' section.
 ## Technologies
 
 Project is built with:
@@ -27,8 +29,24 @@ Project is built with:
 
 ## Features
 
-- **User Authentication 🙋‍♂️**: Users can sign up and log in with an email and password provided by the clerk. They can also manage their accounts, for example, by changing their password or username.
+- **User Authentication**: Users can sign up and log in with an email and password provided by the clerk. They can also manage their accounts, for example, by changing their password or username.
 - **Creating Products**: Everyone can add new products. Additionally, users have the option to add new categories and sizes if they desire.
-- **Search 🔍**: Users can search for products by various categories, such as gender, price, and product categories.
+- **Search**: Users can search for products by various categories, such as gender, price, and product categories.
 - **Buy Products**:  Everyone can purchase items using Stripe. After purchasing an item, users can view their bought products in the 'Purchased Items' section.
-- **Responsive design 📱**: Users can access the application on various devices and screen sizes, thanks to Tailwind CSS. The layout and components adapt to the viewport width and orientation
+- **Responsive design**: Users can access the application on various devices and screen sizes, thanks to Tailwind CSS. The layout and components adapt to the viewport width and orientation
+
+
+## Screenshots
+
+![App Screenshot](https://i.postimg.cc/DyW4n2Sz/shop1.png)
+
+![App Screenshot](https://i.postimg.cc/15LnzLFr/shop2.png)
+
+![App Screenshot](https://i.postimg.cc/NFnymnzY/shop3.png)
+
+![App Screenshot](https://i.postimg.cc/Y00G478b/shop4.png)
+
+![App Screenshot](https://i.postimg.cc/HWv8qJsK/shop5.png)
+
+![App Screenshot](https://i.postimg.cc/LXNg65kJ/shop6.png)
+

@@ -58,7 +58,7 @@ const FormComponent = ({ categories, sizes }: FormComponentProps) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 w-full"
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8 w-full"
           >
             <div className="flex flex-col gap-4">
               <NameForm form={form} />
