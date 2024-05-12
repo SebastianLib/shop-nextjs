@@ -4,6 +4,7 @@ import { useAuth } from "@clerk/nextjs";
 import { Product, Size } from "@prisma/client";
 import { countQuantityAndPrice } from "@/utils/countQuantityAndPrice";
 import { CartProps, ChangeQuantityProps, ShoppingCartProps } from "@/types/types";
+import { toast } from "react-toastify";
 
 
 const ShoppingCart = createContext<ShoppingCartProps>({
@@ -42,6 +43,7 @@ export function ShoppingCartWrapper({
 
     const { totalQuantity, totalPrice } = countQuantityAndPrice(cart);
     setCart({ ...prevCart, quantity: totalQuantity, totalPrice: totalPrice });
+    toast.success("Product added successfully!")
   };
 
   const changeQuantity = ({ quantity, id }: ChangeQuantityProps) => {
